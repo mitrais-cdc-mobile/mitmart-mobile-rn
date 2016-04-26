@@ -31,6 +31,7 @@ class LoginScreen extends Component {
       }
     }
     if (isValid) {
+      //TODO: implement toast for iOS
       ToastAndroid.show('Login Success!', ToastAndroid.SHORT);
       this.setState({ message: '' });
       // this.props.navigator.push({
@@ -40,6 +41,7 @@ class LoginScreen extends Component {
         apiKey: '123'
       });
     } else {
+      //TODO: implement toast for iOS
       ToastAndroid.show('Incorrect Username or Password!', ToastAndroid.SHORT);
     }
   }
