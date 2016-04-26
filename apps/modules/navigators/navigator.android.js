@@ -44,7 +44,8 @@ class App extends Component {
         if (routeId === 'HomeScreen') {
             return (
                 <HomeScreen
-                    navigator={navigator} />
+                    navigator={navigator}
+                    username={route.username} />
             );
         }
     }

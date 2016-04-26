@@ -35,6 +35,7 @@ class HomeScreen extends Component {
                 <View style={{ flex: 1, alignItems: 'center' }}>
                     <Text style={{ margin: 10, fontSize: 15, textAlign: 'right' }}>Hello</Text>
                     <Text style={{ margin: 10, fontSize: 15, textAlign: 'right' }}>World!</Text>
+                    <Text style={{ margin: 10, fontSize: 15, textAlign: 'right' }}>{this.props.username}</Text>
                     <TouchableHighlight onPress={this.openDrawer}>
                         <Text>{'Open Drawer'}</Text>
                     </TouchableHighlight>

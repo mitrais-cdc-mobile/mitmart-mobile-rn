@@ -22,14 +22,13 @@ var styles = StyleSheet.create({
         borderBottomWidth: 2
     },
     inputText2: {
-        width: 300,
-        height: 40,
+        flexDirection: 'row',
+        flex: 1,
+        height: 30,
         backgroundColor: 'white',
         borderColor: '#48209A',
         borderWidth: 1,
         borderRadius: 4,
-        paddingHorizontal: 20,
-        paddingVertical: 10,
         shadowColor: 'darkgrey',
         shadowOffset: {
             width: 1,
@@ -37,15 +36,15 @@ var styles = StyleSheet.create({
         },
         shadowOpacity: 0.8,
         shadowRadius: 1,
-        marginBottom: 10
     },
     simpleButton: {
-        backgroundColor: '#5B29C1',
-        borderColor: '#48209A',
+        width: 250,
+        backgroundColor: '#428BFF',
+        borderColor: '#275399',
         borderWidth: 1,
         borderRadius: 4,
-        paddingHorizontal: 20,
-        paddingVertical: 10,
+        paddingHorizontal: 10,
+        paddingVertical: 5,
         shadowColor: 'darkgrey',
         shadowOffset: {
             width: 1,
@@ -53,18 +52,66 @@ var styles = StyleSheet.create({
         },
         shadowOpacity: 0.8,
         shadowRadius: 1,
+        alignItems: 'center',
     },
     simpleButtonText: {
         color: 'white',
         fontWeight: 'bold',
         fontSize: 16
     },
-    container: {
+    containerTop: {
         flex: 1,
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    container: {
+        width: 270,
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: 'rgba(175,175,175,0.5)',
+        borderRadius: 4,
+        padding: 10
+    },
+    container2: {
+        height: 30,
+        width: 250,
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginBottom: 5
+    },
+    containerLogo: {
+        flex: 4,
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'flex-end',
         marginBottom: 100
+    },
+    containerReset: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginTop: 5
+    },
+    image: {
+        width: 30,
+        height: 30,
+        alignSelf: 'stretch',
+    },
+    textLogo: {
+        color: 'white',
+        fontSize: 100,
+        fontWeight: 'bold',
+    },
+    textForgot: {
+        color: 'white',
+        fontSize: 14
+    },
+    textReset: {
+        color: '#428BFF',
+        fontSize: 14,
     }
 });
 
