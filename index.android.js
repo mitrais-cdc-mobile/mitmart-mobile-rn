@@ -9,3 +9,5 @@ import React, {
 import Navigators from './apps/modules/navigators/navigator';
 
 AppRegistry.registerComponent('MitMartRN', () => Navigators);
+
+// test 
