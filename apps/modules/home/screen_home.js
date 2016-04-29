@@ -14,8 +14,15 @@ import Styles from './style_home';
 
 class HomeScreen extends Component {
     openDrawer() {
-        this.refs['DRAWER'].openDrawer()
+        // this.refs['DRAWER'].openDrawer()
+        this._drawer.openDrawer();
     };
+
+    logout() {
+        this.props.navigator.replace({
+            id: 'LoginScreen'
+        });
+    }
     render() {
 
         var navigationView = (
@@ -26,19 +33,26 @@ class HomeScreen extends Component {
             </View>
         );
 
+        var _drawer = DrawerLayoutAndroid;
         return (
             <DrawerLayoutAndroid
                 drawerWidth={300}
-                ref={'DRAWER'}
+                ref={(drawer) => { _drawer = drawer } }
                 drawerPosition={DrawerLayoutAndroid.positions.Left}
                 renderNavigationView={() => navigationView}>
-                <View style={{ flex: 1, alignItems: 'center' }}>
-                    <Text style={{ margin: 10, fontSize: 15, textAlign: 'right' }}>Hello</Text>
-                    <Text style={{ margin: 10, fontSize: 15, textAlign: 'right' }}>World!</Text>
-                    <Text style={{ margin: 10, fontSize: 15, textAlign: 'right' }}>{this.props.username}</Text>
+                <View style={{ flex: 1, alignItems: 'flex-start' }}>
+                    <Text style={{ margin: 10, fontSize: 15, textAlign: 'left' }}>Hello</Text>
+                    <Text style={{ margin: 10, fontSize: 15, textAlign: 'left' }}>World!</Text>
+                    <Text style={{ margin: 10, fontSize: 15, textAlign: 'left' }}>{`Username = ${this.props.username}`}</Text>
+                    <Text style={{ margin: 10, fontSize: 15, textAlign: 'left' }}>{`Login Id = ${this.props.loginId}`}</Text>
+                    <Text style={{ margin: 10, fontSize: 15, textAlign: 'left' }}>{`UserId Id = ${this.props.userId}`}</Text>
                     <TouchableHighlight onPress={this.openDrawer}>
                         <Text>{'Open Drawer'}</Text>
                     </TouchableHighlight>
+                    <Text
+                        onPress={this.logout} >
+                        {'Logout'}
+                    </Text>
                 </View>
             </DrawerLayoutAndroid>
             // <View style={Styles.container}>

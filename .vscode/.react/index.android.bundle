@@ -65495,7 +65495,7 @@ React.Image;var Platform=React.Platform;var StyleSheet=React.StyleSheet;var Touc
 
 var NavigationHeaderBackButton=function NavigationHeaderBackButton(props){return (
 React.createElement(TouchableOpacity,{style:styles.buttonContainer,onPress:function onPress(){return props.onNavigate(NavigationRootContainer.getBackAction());}},
-React.createElement(Image,{style:styles.button,source:require(544 /* ./assets/back-icon.png */)})));};
+React.createElement(Image,{style:styles.button,source:require(546 /* ./assets/back-icon.png */)})));};
 
 
 
@@ -65520,7 +65520,7 @@ resizeMode:'contain'}});
 
 module.exports=NavigationContainer.create(NavigationHeaderBackButton);
 });
-__d(544 /* react-native/Libraries/CustomComponents/NavigationExperimental/assets/back-icon.png */, function(global, require, module, exports) {module.exports = require(333 /* react-native/Libraries/Image/AssetRegistry */).registerAsset({"__packager_asset":true,"fileSystemLocation":"d:\\Mitrais Project\\React\\mitmart-mobile-rn\\node_modules\\react-native\\Libraries\\CustomComponents\\NavigationExperimental\\assets","httpServerLocation":"/assets/node_modules/react-native/Libraries/CustomComponents/NavigationExperimental/assets","width":24,"height":24,"scales":[1,1.5,2,3,4],"files":["d:\\Mitrais Project\\React\\mitmart-mobile-rn\\node_modules\\react-native\\Libraries\\CustomComponents\\NavigationExperimental\\assets\\back-icon@1x.android.png","d:\\Mitrais Project\\React\\mitmart-mobile-rn\\node_modules\\react-native\\Libraries\\CustomComponents\\NavigationExperimental\\assets\\back-icon@1.5x.android.png","d:\\Mitrais Project\\React\\mitmart-mobile-rn\\node_modules\\react-native\\Libraries\\CustomComponents\\NavigationExperimental\\assets\\back-icon@2x.android.png","d:\\Mitrais Project\\React\\mitmart-mobile-rn\\node_modules\\react-native\\Libraries\\CustomComponents\\NavigationExperimental\\assets\\back-icon@3x.android.png","d:\\Mitrais Project\\React\\mitmart-mobile-rn\\node_modules\\react-native\\Libraries\\CustomComponents\\NavigationExperimental\\assets\\back-icon@4x.android.png"],"hash":"37fdab657501e30a0466322ce40744e2","name":"back-icon","type":"png"});
+__d(546 /* react-native/Libraries/CustomComponents/NavigationExperimental/assets/back-icon.png */, function(global, require, module, exports) {module.exports = require(333 /* react-native/Libraries/Image/AssetRegistry */).registerAsset({"__packager_asset":true,"fileSystemLocation":"d:\\Mitrais Project\\React\\mitmart-mobile-rn\\node_modules\\react-native\\Libraries\\CustomComponents\\NavigationExperimental\\assets","httpServerLocation":"/assets/node_modules/react-native/Libraries/CustomComponents/NavigationExperimental/assets","width":24,"height":24,"scales":[1,1.5,2,3,4],"files":["d:\\Mitrais Project\\React\\mitmart-mobile-rn\\node_modules\\react-native\\Libraries\\CustomComponents\\NavigationExperimental\\assets\\back-icon@1x.android.png","d:\\Mitrais Project\\React\\mitmart-mobile-rn\\node_modules\\react-native\\Libraries\\CustomComponents\\NavigationExperimental\\assets\\back-icon@1.5x.android.png","d:\\Mitrais Project\\React\\mitmart-mobile-rn\\node_modules\\react-native\\Libraries\\CustomComponents\\NavigationExperimental\\assets\\back-icon@2x.android.png","d:\\Mitrais Project\\React\\mitmart-mobile-rn\\node_modules\\react-native\\Libraries\\CustomComponents\\NavigationExperimental\\assets\\back-icon@3x.android.png","d:\\Mitrais Project\\React\\mitmart-mobile-rn\\node_modules\\react-native\\Libraries\\CustomComponents\\NavigationExperimental\\assets\\back-icon@4x.android.png"],"hash":"37fdab657501e30a0466322ce40744e2","name":"back-icon","type":"png"});
 });
 __d(504 /* NavigationHeaderStyleInterpolator */, function(global, require, module, exports) {'use strict';
 
@@ -69209,8 +69209,9 @@ __d(536 /* MitMartRN/apps/modules/navigators/navigator.android.js */, function(g
 
 var _reactNative=require(11 /* react-native */);var _reactNative2=babelHelpers.interopRequireDefault(_reactNative);
 var _screen_login=require(537 /* ../login/screen_login */);var _screen_login2=babelHelpers.interopRequireDefault(_screen_login);
-var _screen_home=require(539 /* ../home/screen_home */);var _screen_home2=babelHelpers.interopRequireDefault(_screen_home);
-var _screen_welcome=require(541 /* ../welcome/screen_welcome */);var _screen_welcome2=babelHelpers.interopRequireDefault(_screen_welcome);var 
+var _screen_home=require(544 /* ../home/screen_home */);var _screen_home2=babelHelpers.interopRequireDefault(_screen_home);
+var _screen_welcome=require(540 /* ../welcome/screen_welcome */);var _screen_welcome2=babelHelpers.interopRequireDefault(_screen_welcome);
+var _screen_sign_up=require(545 /* ../sign_up/screen_sign_up */);var _screen_sign_up2=babelHelpers.interopRequireDefault(_screen_sign_up);var 
 
 Component=_reactNative2.default.Component;var 
 Navigator=_reactNative2.default.Navigator;var 
@@ -69236,23 +69237,29 @@ return Navigator.SceneConfigs.FloatFromRight;}}));}},{key:'renderScene',value:fu
 route,navigator){
 nav=navigator;
 var routeId=route.id;
-if(routeId==='WelcomeScreen'){
+switch(routeId){
+case 'WelcomeScreen':
 return (
 _reactNative2.default.createElement(_screen_welcome2.default,{
-navigator:navigator}));}
+navigator:navigator}));
 
-
-if(routeId==='LoginScreen'){
+case 'LoginScreen':
 return (
 _reactNative2.default.createElement(_screen_login2.default,{
-navigator:navigator}));}
+navigator:navigator}));
 
-
-if(routeId==='HomeScreen'){
+case 'HomeScreen':
 return (
 _reactNative2.default.createElement(_screen_home2.default,{
 navigator:navigator,
-username:route.username}));}}}]);return App;}(Component);
+username:route.username,
+loginId:route.loginId,
+userId:route.userId}));
+
+case 'SignUpScreen':
+return (
+_reactNative2.default.createElement(_screen_sign_up2.default,{
+navigator:navigator}));}}}]);return App;}(Component);
 
 
 
@@ -69292,40 +69299,40 @@ var VALID_USERNAME=[
 
 
 LoginScreen=function(_Component){babelHelpers.inherits(LoginScreen,_Component);function LoginScreen(){babelHelpers.classCallCheck(this,LoginScreen);return babelHelpers.possibleConstructorReturn(this,Object.getPrototypeOf(LoginScreen).apply(this,arguments));}babelHelpers.createClass(LoginScreen,[{key:'signin',value:function signin(
-username,password){
-var isValid=false;
-this.setState({message:'Login Failed'});
-for(var i=0;i<VALID_USERNAME.length;i++){
-if(username===VALID_USERNAME[i].username&&password===VALID_USERNAME[i].password){
-isValid=true;}}
+username,password){var _this2=this;
+var req={username:username,password:password};
+fetch("http://mtpc585.mitrais.com:3000/api/users/login",{
+method:"POST",
+headers:{'Content-Type':'application/json'},
+body:JSON.stringify(req)}).
 
-
-if(isValid){
-_reactNative.ToastAndroid.show('Login Success!',_reactNative.ToastAndroid.SHORT);
-this.setState({message:''});
-
-this.props.navigator.replace({
+then(function(response){return response.json();}).
+then(function(data){
+_this2.props.navigator.resetTo({
 id:'HomeScreen',
 username:username,
-apiKey:'123'});}else 
-
-{
-_reactNative.ToastAndroid.show('Incorrect Username or Password!',_reactNative.ToastAndroid.SHORT);}}},{key:'render',value:function render()
+loginId:data.id,
+userId:data.userId});}).
 
 
+catch(function(error){
+console.log('[Error] - Sign in attempt is failing. Error: '+error.message);}).
 
-{var _this2=this;
+done();}},{key:'render',value:function render()
+
+
+{var _this3=this;
 return (
 _reactNative2.default.createElement(_reactNative.View,{style:{flex:1,flexDirection:'column',alignItems:'center',justifyContent:'center'}},
 _reactNative2.default.createElement(_reactNative.View,{style:_style_login2.default.bgImageWrapper},
 _reactNative2.default.createElement(_reactNative.Image,{
-source:require(543 /* ../../resources/bg_image.jpg */),
+source:require(552 /* ../../resources/bg_image.jpg */),
 style:_style_login2.default.bgImage})),
 
 _reactNative2.default.createElement(_reactNative.View,{style:_style_login2.default.containerTop},
 _reactNative2.default.createElement(_reactNative.Image,{
 style:{height:200,width:300,alignSelf:'stretch'},
-source:require(545 /* ../../resources/mitmart_logo.png */),
+source:require(551 /* ../../resources/mitmart_logo.png */),
 resizeMode:'contain'})),
 
 _reactNative2.default.createElement(_reactNative.View,{style:{flex:1,flexDirection:'column',alignItems:'center',justifyContent:'center'}},
@@ -69333,26 +69340,26 @@ _reactNative2.default.createElement(_reactNative.View,{style:_style_login2.defau
 _reactNative2.default.createElement(_reactNative.View,{style:_style_login2.default.container2},
 _reactNative2.default.createElement(_reactNative.Image,{
 style:_style_login2.default.image,
-source:require(546 /* ../../resources/ic_messages.png */)}),
+source:require(547 /* ../../resources/ic_messages.png */)}),
 _reactNative2.default.createElement(_reactNative.TextInput,{
 ref:'username',
 style:_style_login2.default.inputText2,
 placeholder:'Username',
-onChangeText:function onChangeText(username){return _this2.setState({username:username});}})),
+onChangeText:function onChangeText(username){return _this3.setState({username:username});}})),
 
 _reactNative2.default.createElement(_reactNative.View,{style:_style_login2.default.container2},
 _reactNative2.default.createElement(_reactNative.Image,{
 style:_style_login2.default.image,
-source:require(547 /* ../../resources/ic_lock_large.png */)}),
+source:require(549 /* ../../resources/ic_lock_large.png */)}),
 _reactNative2.default.createElement(_reactNative.TextInput,{
 ref:'password',
 style:_style_login2.default.inputText2,
 placeholder:'Password',
-onChangeText:function onChangeText(password){return _this2.setState({password:password});},
+onChangeText:function onChangeText(password){return _this3.setState({password:password});},
 secureTextEntry:true})),
 
 _reactNative2.default.createElement(_reactNative.TouchableOpacity,{
-onPress:function onPress(){return _this2.signin(_this2.state.username,_this2.state.password);},
+onPress:function onPress(){return _this3.signin(_this3.state.username,_this3.state.password);},
 style:_style_login2.default.simpleButton},
 _reactNative2.default.createElement(_reactNative.View,null,
 _reactNative2.default.createElement(_reactNative.Text,{style:_style_login2.default.simpleButtonText},' Login')))),
@@ -69490,7 +69497,8 @@ marginTop:5},
 image:{
 width:30,
 height:30,
-alignSelf:'stretch'},
+alignSelf:'stretch',
+marginRight:5},
 
 textLogo:{
 color:'white',
@@ -69509,15 +69517,15 @@ fontSize:14}});
 
 module.exports=styles;
 });
-__d(543 /* MitMartRN/apps/resources/bg_image.jpg */, function(global, require, module, exports) {module.exports = require(333 /* react-native/Libraries/Image/AssetRegistry */).registerAsset({"__packager_asset":true,"fileSystemLocation":"d:\\Mitrais Project\\React\\mitmart-mobile-rn\\apps\\resources","httpServerLocation":"/assets/apps/resources","width":1920,"height":1200,"scales":[1],"files":["d:\\Mitrais Project\\React\\mitmart-mobile-rn\\apps\\resources\\bg_image.jpg"],"hash":"3ed3cad6927b8eb8fdd1d225f0f4b17c","name":"bg_image","type":"jpg"});
+__d(552 /* MitMartRN/apps/resources/bg_image.jpg */, function(global, require, module, exports) {module.exports = require(333 /* react-native/Libraries/Image/AssetRegistry */).registerAsset({"__packager_asset":true,"fileSystemLocation":"d:\\Mitrais Project\\React\\mitmart-mobile-rn\\apps\\resources","httpServerLocation":"/assets/apps/resources","width":1920,"height":1200,"scales":[1],"files":["d:\\Mitrais Project\\React\\mitmart-mobile-rn\\apps\\resources\\bg_image.jpg"],"hash":"3ed3cad6927b8eb8fdd1d225f0f4b17c","name":"bg_image","type":"jpg"});
 });
-__d(545 /* MitMartRN/apps/resources/mitmart_logo.png */, function(global, require, module, exports) {module.exports = require(333 /* react-native/Libraries/Image/AssetRegistry */).registerAsset({"__packager_asset":true,"fileSystemLocation":"d:\\Mitrais Project\\React\\mitmart-mobile-rn\\apps\\resources","httpServerLocation":"/assets/apps/resources","width":449,"height":129,"scales":[1],"files":["d:\\Mitrais Project\\React\\mitmart-mobile-rn\\apps\\resources\\mitmart_logo.png"],"hash":"9fffb70c92edf8ffda478600b74c8164","name":"mitmart_logo","type":"png"});
+__d(551 /* MitMartRN/apps/resources/mitmart_logo.png */, function(global, require, module, exports) {module.exports = require(333 /* react-native/Libraries/Image/AssetRegistry */).registerAsset({"__packager_asset":true,"fileSystemLocation":"d:\\Mitrais Project\\React\\mitmart-mobile-rn\\apps\\resources","httpServerLocation":"/assets/apps/resources","width":449,"height":129,"scales":[1],"files":["d:\\Mitrais Project\\React\\mitmart-mobile-rn\\apps\\resources\\mitmart_logo.png"],"hash":"9fffb70c92edf8ffda478600b74c8164","name":"mitmart_logo","type":"png"});
 });
-__d(546 /* MitMartRN/apps/resources/ic_messages.png */, function(global, require, module, exports) {module.exports = require(333 /* react-native/Libraries/Image/AssetRegistry */).registerAsset({"__packager_asset":true,"fileSystemLocation":"d:\\Mitrais Project\\React\\mitmart-mobile-rn\\apps\\resources","httpServerLocation":"/assets/apps/resources","width":108,"height":108,"scales":[1],"files":["d:\\Mitrais Project\\React\\mitmart-mobile-rn\\apps\\resources\\ic_messages.png"],"hash":"658ad8776b3c8a3bbd62c11cc73813c9","name":"ic_messages","type":"png"});
+__d(547 /* MitMartRN/apps/resources/ic_messages.png */, function(global, require, module, exports) {module.exports = require(333 /* react-native/Libraries/Image/AssetRegistry */).registerAsset({"__packager_asset":true,"fileSystemLocation":"d:\\Mitrais Project\\React\\mitmart-mobile-rn\\apps\\resources","httpServerLocation":"/assets/apps/resources","width":108,"height":108,"scales":[1],"files":["d:\\Mitrais Project\\React\\mitmart-mobile-rn\\apps\\resources\\ic_messages.png"],"hash":"658ad8776b3c8a3bbd62c11cc73813c9","name":"ic_messages","type":"png"});
 });
-__d(547 /* MitMartRN/apps/resources/ic_lock_large.png */, function(global, require, module, exports) {module.exports = require(333 /* react-native/Libraries/Image/AssetRegistry */).registerAsset({"__packager_asset":true,"fileSystemLocation":"d:\\Mitrais Project\\React\\mitmart-mobile-rn\\apps\\resources","httpServerLocation":"/assets/apps/resources","width":228,"height":228,"scales":[1],"files":["d:\\Mitrais Project\\React\\mitmart-mobile-rn\\apps\\resources\\ic_lock_large.png"],"hash":"add7c16a5230fb1af7defda993e4bdbd","name":"ic_lock_large","type":"png"});
+__d(549 /* MitMartRN/apps/resources/ic_lock_large.png */, function(global, require, module, exports) {module.exports = require(333 /* react-native/Libraries/Image/AssetRegistry */).registerAsset({"__packager_asset":true,"fileSystemLocation":"d:\\Mitrais Project\\React\\mitmart-mobile-rn\\apps\\resources","httpServerLocation":"/assets/apps/resources","width":228,"height":228,"scales":[1],"files":["d:\\Mitrais Project\\React\\mitmart-mobile-rn\\apps\\resources\\ic_lock_large.png"],"hash":"add7c16a5230fb1af7defda993e4bdbd","name":"ic_lock_large","type":"png"});
 });
-__d(539 /* MitMartRN/apps/modules/home/screen_home.js */, function(global, require, module, exports) {'use strict';
+__d(544 /* MitMartRN/apps/modules/home/screen_home.js */, function(global, require, module, exports) {'use strict';
 
 var _reactNative=require(11 /* react-native */);var _reactNative2=babelHelpers.interopRequireDefault(_reactNative);
 
@@ -69529,11 +69537,18 @@ var _reactNative=require(11 /* react-native */);var _reactNative2=babelHelpers.i
 
 
 
-var _style_home=require(540 /* ./style_home */);var _style_home2=babelHelpers.interopRequireDefault(_style_home);var 
+var _style_home=require(539 /* ./style_home */);var _style_home2=babelHelpers.interopRequireDefault(_style_home);var 
 
 HomeScreen=function(_Component){babelHelpers.inherits(HomeScreen,_Component);function HomeScreen(){babelHelpers.classCallCheck(this,HomeScreen);return babelHelpers.possibleConstructorReturn(this,Object.getPrototypeOf(HomeScreen).apply(this,arguments));}babelHelpers.createClass(HomeScreen,[{key:'openDrawer',value:function openDrawer()
 {
-this.refs['DRAWER'].openDrawer();}},{key:'render',value:function render()
+
+this._drawer.openDrawer();}},{key:'logout',value:function logout()
+
+
+{
+this.props.navigator.replace({
+id:'LoginScreen'});}},{key:'render',value:function render()
+
 
 {
 
@@ -69545,18 +69560,25 @@ _reactNative2.default.createElement(_reactNative.Text,{style:{margin:10,fontSize
 
 
 
+var _drawer=_reactNative.DrawerLayoutAndroid;
 return (
 _reactNative2.default.createElement(_reactNative.DrawerLayoutAndroid,{
 drawerWidth:300,
-ref:'DRAWER',
+ref:function ref(drawer){_drawer=drawer;},
 drawerPosition:_reactNative.DrawerLayoutAndroid.positions.Left,
 renderNavigationView:function renderNavigationView(){return navigationView;}},
-_reactNative2.default.createElement(_reactNative.View,{style:{flex:1,alignItems:'center'}},
-_reactNative2.default.createElement(_reactNative.Text,{style:{margin:10,fontSize:15,textAlign:'right'}},'Hello'),
-_reactNative2.default.createElement(_reactNative.Text,{style:{margin:10,fontSize:15,textAlign:'right'}},'World!'),
-_reactNative2.default.createElement(_reactNative.Text,{style:{margin:10,fontSize:15,textAlign:'right'}},this.props.username),
+_reactNative2.default.createElement(_reactNative.View,{style:{flex:1,alignItems:'flex-start'}},
+_reactNative2.default.createElement(_reactNative.Text,{style:{margin:10,fontSize:15,textAlign:'left'}},'Hello'),
+_reactNative2.default.createElement(_reactNative.Text,{style:{margin:10,fontSize:15,textAlign:'left'}},'World!'),
+_reactNative2.default.createElement(_reactNative.Text,{style:{margin:10,fontSize:15,textAlign:'left'}},'Username = '+this.props.username),
+_reactNative2.default.createElement(_reactNative.Text,{style:{margin:10,fontSize:15,textAlign:'left'}},'Login Id = '+this.props.loginId),
+_reactNative2.default.createElement(_reactNative.Text,{style:{margin:10,fontSize:15,textAlign:'left'}},'UserId Id = '+this.props.userId),
 _reactNative2.default.createElement(_reactNative.TouchableHighlight,{onPress:this.openDrawer},
-_reactNative2.default.createElement(_reactNative.Text,null,'Open Drawer')))));}}]);return HomeScreen;}(_reactNative.Component);
+_reactNative2.default.createElement(_reactNative.Text,null,'Open Drawer')),
+
+_reactNative2.default.createElement(_reactNative.Text,{
+onPress:this.logout},
+'Logout'))));}}]);return HomeScreen;}(_reactNative.Component);
 
 
 
@@ -69577,7 +69599,7 @@ _reactNative2.default.createElement(_reactNative.Text,null,'Open Drawer')))));}}
 
 module.exports=HomeScreen;
 });
-__d(540 /* MitMartRN/apps/modules/home/style_home.js */, function(global, require, module, exports) {'use strict';
+__d(539 /* MitMartRN/apps/modules/home/style_home.js */, function(global, require, module, exports) {'use strict';
 
 var _reactNative=require(11 /* react-native */);var _reactNative2=babelHelpers.interopRequireDefault(_reactNative);
 
@@ -69604,14 +69626,14 @@ marginBottom:5}});
 
 module.exports=styles;
 });
-__d(541 /* MitMartRN/apps/modules/welcome/screen_welcome.js */, function(global, require, module, exports) {'use strict';
+__d(540 /* MitMartRN/apps/modules/welcome/screen_welcome.js */, function(global, require, module, exports) {'use strict';
 
 var _reactNative=require(11 /* react-native */);var _reactNative2=babelHelpers.interopRequireDefault(_reactNative);
 
 
 
 
-var _style_welcome=require(542 /* ./style_welcome */);var _style_welcome2=babelHelpers.interopRequireDefault(_style_welcome);var 
+var _style_welcome=require(541 /* ./style_welcome */);var _style_welcome2=babelHelpers.interopRequireDefault(_style_welcome);var 
 
 SplashPage=function(_Component){babelHelpers.inherits(SplashPage,_Component);function SplashPage(){babelHelpers.classCallCheck(this,SplashPage);return babelHelpers.possibleConstructorReturn(this,Object.getPrototypeOf(SplashPage).apply(this,arguments));}babelHelpers.createClass(SplashPage,[{key:'componentWillMount',value:function componentWillMount()
 
@@ -69619,7 +69641,7 @@ SplashPage=function(_Component){babelHelpers.inherits(SplashPage,_Component);fun
 var navigator=this.props.navigator;
 setTimeout(function(){
 navigator.replace({
-id:'LoginScreen'});},
+id:'SignUpScreen'});},
 
 2000);}},{key:'render',value:function render()
 
@@ -69638,7 +69660,7 @@ source:{uri:'https://images.unsplash.com/photo-1441260038675-7329ab4cc264?h=1024
 
 module.exports=SplashPage;
 });
-__d(542 /* MitMartRN/apps/modules/welcome/style_welcome.js */, function(global, require, module, exports) {'use strict';
+__d(541 /* MitMartRN/apps/modules/welcome/style_welcome.js */, function(global, require, module, exports) {'use strict';
 
 var _reactNative=require(11 /* react-native */);var _reactNative2=babelHelpers.interopRequireDefault(_reactNative);var _Dimensions$get=
 
@@ -69663,6 +69685,319 @@ height:height}});
 
 
 module.exports=styles;
+});
+__d(545 /* MitMartRN/apps/modules/sign_up/screen_sign_up.js */, function(global, require, module, exports) {'use strict';
+
+var _reactNative=require(11 /* react-native */);var _reactNative2=babelHelpers.interopRequireDefault(_reactNative);
+
+
+
+
+
+
+
+
+
+var _style_sign_up=require(542 /* ./style_sign_up */);var _style_sign_up2=babelHelpers.interopRequireDefault(_style_sign_up);
+var _styles=require(543 /* ../../styles/styles */);var _styles2=babelHelpers.interopRequireDefault(_styles);var 
+
+SignUpScreen=function(_Component){babelHelpers.inherits(SignUpScreen,_Component);function SignUpScreen(){babelHelpers.classCallCheck(this,SignUpScreen);return babelHelpers.possibleConstructorReturn(this,Object.getPrototypeOf(SignUpScreen).apply(this,arguments));}babelHelpers.createClass(SignUpScreen,[{key:'signin',value:function signin()
+{
+this.props.navigator.push({
+id:'LoginScreen'});}},{key:'signup',value:function signup(
+
+
+username,email,password,phone){var _this2=this;
+var req={username:username,email:email,password:password,phone:phone};
+fetch("http://mtpc585.mitrais.com:3000/api/users",{
+method:"POST",
+headers:{'Content-Type':'application/json'},
+body:JSON.stringify(req)}).
+
+then(function(response){return response.json();}).
+then(function(data){
+_this2.props.navigator.resetTo({
+id:'HomeScreen',
+username:username,
+loginId:data.id,
+userId:data.userId});}).
+
+
+catch(function(error){
+console.log('[Error] - Sign in attempt is failing. Error: '+error.message);}).
+
+done();}},{key:'render',value:function render()
+
+{var _this3=this;
+var _scrollView=_reactNative.ScrollView;
+return (
+_reactNative2.default.createElement(_reactNative.View,{style:_style_sign_up2.default.containerParent},
+_reactNative2.default.createElement(_reactNative.View,{style:_style_sign_up2.default.bgImageWrapper},
+_reactNative2.default.createElement(_reactNative.Image,{
+source:require(552 /* ../../resources/bg_image.jpg */),
+style:_style_sign_up2.default.bgImage})),
+
+_reactNative2.default.createElement(_reactNative.View,{style:_style_sign_up2.default.scrollView},
+_reactNative2.default.createElement(_reactNative.View,{style:_style_sign_up2.default.containerBody},
+_reactNative2.default.createElement(_reactNative.View,{style:_style_sign_up2.default.containerForm},
+_reactNative2.default.createElement(_reactNative.Image,{
+style:_style_sign_up2.default.icon,
+source:require(547 /* ../../resources/ic_messages.png */)}),
+_reactNative2.default.createElement(_reactNative.TextInput,{
+ref:'email',
+style:_style_sign_up2.default.inputText,
+placeholder:'Email',
+onChangeText:function onChangeText(email){return _this3.setState({email:email});},
+keyboardType:'email-address'})),
+
+_reactNative2.default.createElement(_reactNative.View,{style:_style_sign_up2.default.containerForm},
+_reactNative2.default.createElement(_reactNative.Image,{
+style:_style_sign_up2.default.icon,
+source:require(548 /* ../../resources/ic_person_white.png */)}),
+_reactNative2.default.createElement(_reactNative.TextInput,{
+ref:'username',
+style:_style_sign_up2.default.inputText,
+placeholder:'Username',
+onChangeText:function onChangeText(username){return _this3.setState({username:username});}})),
+
+_reactNative2.default.createElement(_reactNative.View,{style:_style_sign_up2.default.containerForm},
+_reactNative2.default.createElement(_reactNative.Image,{
+style:_style_sign_up2.default.icon,
+source:require(550 /* ../../resources/ic_phone_white.png */)}),
+_reactNative2.default.createElement(_reactNative.TextInput,{
+ref:'phone_number',
+style:_style_sign_up2.default.inputText,
+placeholder:'Phone Number',
+onChangeText:function onChangeText(phone_number){return _this3.setState({phone_number:phone_number});},
+keyboardType:'numeric'})),
+
+_reactNative2.default.createElement(_reactNative.View,{style:_style_sign_up2.default.containerForm},
+_reactNative2.default.createElement(_reactNative.Image,{
+style:_style_sign_up2.default.icon,
+source:require(549 /* ../../resources/ic_lock_large.png */)}),
+_reactNative2.default.createElement(_reactNative.TextInput,{
+ref:'password',
+style:_style_sign_up2.default.inputText,
+placeholder:'Password',
+onChangeText:function onChangeText(password){return _this3.setState({password:password});},
+secureTextEntry:true}))),
+
+
+_reactNative2.default.createElement(_reactNative.View,{style:_style_sign_up2.default.containerBottom},
+_reactNative2.default.createElement(_reactNative.View,{style:_style_sign_up2.default.containerButton},
+_reactNative2.default.createElement(_reactNative.TouchableOpacity,{
+onPress:function onPress(){return _this3.signup(
+_this3.state.username,
+_this3.state.email,
+_this3.state.password,
+_this3.state.phone_number);},
+
+style:_style_sign_up2.default.simpleButton},
+_reactNative2.default.createElement(_reactNative.View,null,
+_reactNative2.default.createElement(_reactNative.Text,{style:_style_sign_up2.default.simpleButtonText},' Sign Up'))),
+
+
+_reactNative2.default.createElement(_reactNative.View,{style:_style_sign_up2.default.containerLine},
+_reactNative2.default.createElement(_reactNative.View,{style:_style_sign_up2.default.line}),
+_reactNative2.default.createElement(_reactNative.Text,{style:_style_sign_up2.default.textOr},'Or'),
+_reactNative2.default.createElement(_reactNative.View,{style:_style_sign_up2.default.line})),
+
+_reactNative2.default.createElement(_reactNative.TouchableOpacity,{
+onPress:function onPress(){return _this3.signin();},
+style:_style_sign_up2.default.simpleButton},
+_reactNative2.default.createElement(_reactNative.View,null,
+_reactNative2.default.createElement(_reactNative.Text,{style:_style_sign_up2.default.simpleButtonText},' Sign In'))))))));}}]);return SignUpScreen;}(_reactNative.Component);
+
+
+
+
+
+
+
+
+
+
+module.exports=SignUpScreen;
+});
+__d(542 /* MitMartRN/apps/modules/sign_up/style_sign_up.js */, function(global, require, module, exports) {'use strict';
+
+var _reactNative=require(11 /* react-native */);var _reactNative2=babelHelpers.interopRequireDefault(_reactNative);var _Dimensions$get=
+
+
+
+
+_reactNative.Dimensions.get('window');var height=_Dimensions$get.height;var width=_Dimensions$get.width;
+var lineWidth=215;
+
+var styles=_reactNative.StyleSheet.create({
+bgImageWrapper:{
+position:'absolute',
+top:0,bottom:0,left:0,right:0},
+
+bgImage:{
+flex:1,
+resizeMode:"stretch"},
+
+containerParent:{
+flex:1,
+flexDirection:'column',
+alignItems:'flex-start',
+justifyContent:'center'},
+
+scrollView:{
+flex:1,
+width:width},
+
+container:{
+margin:10,
+padding:10,
+flexDirection:'column',
+alignItems:'center',
+justifyContent:'center'},
+
+containerBottom:{
+flex:1,
+margin:10,
+flexDirection:'row',
+alignItems:'flex-end',
+justifyContent:'center'},
+
+containerButton:{
+flex:1,
+flexDirection:'column',
+alignItems:'center',
+justifyContent:'center'},
+
+containerBody:{
+backgroundColor:'rgba(175,175,175,0.5)',
+margin:10,
+padding:10,
+borderRadius:4},
+
+containerForm:{
+height:30,
+flexDirection:'row',
+alignItems:'center',
+justifyContent:'center',
+marginBottom:5},
+
+icon:{
+width:30,
+height:30,
+alignSelf:'stretch',
+marginRight:5},
+
+inputText:{
+flexDirection:'row',
+flex:1,
+height:30,
+backgroundColor:'white',
+borderColor:'#48209A',
+borderWidth:1,
+borderRadius:4,
+shadowColor:'darkgrey',
+shadowOffset:{
+width:1,
+height:1},
+
+shadowOpacity:0.8,
+shadowRadius:1},
+
+simpleButton:{
+flex:1,
+flexDirection:'row',
+backgroundColor:'#428BFF',
+borderColor:'#275399',
+borderWidth:1,
+borderRadius:4,
+paddingHorizontal:10,
+paddingVertical:5,
+shadowColor:'darkgrey',
+shadowOffset:{
+width:1,
+height:1},
+
+shadowOpacity:0.8,
+shadowRadius:1,
+alignItems:'center',
+alignSelf:'stretch',
+justifyContent:'center'},
+
+simpleButtonText:{
+color:'white',
+fontWeight:'bold',
+fontSize:16},
+
+containerLine:{
+flex:1,
+flexDirection:'row',
+alignItems:'center',
+justifyContent:'center',
+marginBottom:5,
+marginTop:5},
+
+line:{
+height:1,
+width:width-lineWidth,
+justifyContent:'center',
+backgroundColor:'white'},
+
+textOr:{
+color:'white',
+marginRight:5,
+marginLeft:5},
+
+test:{
+flex:1,
+flexDirection:'row',
+backgroundColor:'white',
+width:width},
+
+test2:{
+flex:1,
+flexDirection:'row',
+backgroundColor:'grey',
+width:100,
+height:100}});
+
+
+
+module.exports=styles;
+});
+__d(543 /* MitMartRN/apps/styles/styles.js */, function(global, require, module, exports) {'use strict';
+
+var _reactNative=require(11 /* react-native */);var _reactNative2=babelHelpers.interopRequireDefault(_reactNative);
+
+
+
+var styles=_reactNative.StyleSheet.create({
+lineGrey:{
+flexDirection:'row',
+flex:1,
+height:1,
+backgroundColor:'grey',
+paddingTop:5,
+paddingBottom:5},
+
+lineWhite:{
+height:10,
+backgroundColor:'white'},
+
+lineBlack:{
+flexDirection:'row',
+flex:1,
+height:1,
+backgroundColor:'black',
+paddingTop:5,
+paddingBottom:5}});
+
+
+
+module.exports=styles;
+});
+__d(548 /* MitMartRN/apps/resources/ic_person_white.png */, function(global, require, module, exports) {module.exports = require(333 /* react-native/Libraries/Image/AssetRegistry */).registerAsset({"__packager_asset":true,"fileSystemLocation":"d:\\Mitrais Project\\React\\mitmart-mobile-rn\\apps\\resources","httpServerLocation":"/assets/apps/resources","width":48,"height":48,"scales":[1],"files":["d:\\Mitrais Project\\React\\mitmart-mobile-rn\\apps\\resources\\ic_person_white.png"],"hash":"93f47a0c9fc740d9baba24ce960a2795","name":"ic_person_white","type":"png"});
+});
+__d(550 /* MitMartRN/apps/resources/ic_phone_white.png */, function(global, require, module, exports) {module.exports = require(333 /* react-native/Libraries/Image/AssetRegistry */).registerAsset({"__packager_asset":true,"fileSystemLocation":"d:\\Mitrais Project\\React\\mitmart-mobile-rn\\apps\\resources","httpServerLocation":"/assets/apps/resources","width":48,"height":48,"scales":[1],"files":["d:\\Mitrais Project\\React\\mitmart-mobile-rn\\apps\\resources\\ic_phone_white.png"],"hash":"1768e90a0ef927b75af9d220ce98021d","name":"ic_phone_white","type":"png"});
 });
 ;require(16);
 ;require(25);

@@ -23,27 +23,25 @@ var VALID_USERNAME = [
 
 class LoginScreen extends Component {
   signin(username, password) {
-    let isValid = false;
-    this.setState({ message: 'Login Failed' });
-    for (var i = 0; i < VALID_USERNAME.length; i++) {
-      if (username === VALID_USERNAME[i].username && password === VALID_USERNAME[i].password) {
-        isValid = true;
-      }
-    }
-    if (isValid) {
-      //TODO: implement toast for iOS
-      ToastAndroid.show('Login Success!', ToastAndroid.SHORT);
-      this.setState({ message: '' });
-      // this.props.navigator.push({
-      this.props.navigator.replace({
-        id: 'HomeScreen',
-        username: username,
-        apiKey: '123'
-      });
-    } else {
-      //TODO: implement toast for iOS
-      ToastAndroid.show('Incorrect Username or Password!', ToastAndroid.SHORT);
-    }
+    const req = { username: username, password: password };
+    fetch("http://mtpc585.mitrais.com:3000/api/users/login", {
+      method: "POST",
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(req)
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        this.props.navigator.resetTo({
+          id: 'HomeScreen',
+          username: username,
+          loginId: data.id,
+          userId: data.userId
+        });
+      })
+      .catch(error => {
+        console.log(`[Error] - Sign in attempt is failing. Error: ${error.message}`);
+      })
+      .done();
   }
 
   render() {

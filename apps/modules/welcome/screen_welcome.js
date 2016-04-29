@@ -13,7 +13,7 @@ class SplashPage extends Component {
         var navigator = this.props.navigator;
         setTimeout(() => {
             navigator.replace({
-                id: 'LoginScreen',
+                id: 'SignUpScreen',
             });
         }, 2000);
     }
