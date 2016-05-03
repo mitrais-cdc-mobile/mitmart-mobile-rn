@@ -1,16 +1,16 @@
 'use strict';
 
-import React from 'react-native';
+import React, {
+    Component,
+    Navigator    
+} from 'react-native';
+
 import LoginScreen from '../login/screen_login';
 import HomeScreen from '../home/screen_home';
 import WelcomeScreen from '../welcome/screen_welcome';
 import SignUpScreen from '../sign_up/screen_sign_up';
-var {
-    Component,
-    Navigator
-} = React;
-var nav;
 
+let nav;
 class App extends Component {
     render() {
         return (
