@@ -11,7 +11,6 @@ import React, {
     ScrollView,
 } from 'react-native';
 import Styles from './style_sign_up';
-<<<<<<< HEAD
 import StylesGlobal from '../../styles/styles';
 import TestData from '../../async_storage/async_storage';
 import url from '../../app_config';
@@ -67,31 +66,6 @@ class SignUpScreen extends Component {
                 } else {
                     Alert.alert('Sign-Up Failed', 'Sign-Up Failed!');
                 }
-=======
-import StylesGlobal from '../../styles/styles'
-
-class SignUpScreen extends Component {
-    signin() {
-        this.props.navigator.push({
-            id: 'LoginScreen'
-        });
-    }
-    signup(username, email, password, phone) {
-        const req = { username: username, email: email, password: password, phone: phone };
-        fetch("http://mtpc585.mitrais.com:3000/api/users", {
-            method: "POST",
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(req)
-        })
-            .then((response) => response.json())
-            .then((data) => {
-                this.props.navigator.resetTo({
-                    id: 'HomeScreen',
-                    username: username,
-                    loginId: data.id,
-                    userId: data.userId
-                });
->>>>>>> 34a2d5e07fb4319e06be5bfa9142a6b755452f19
             })
             .catch(error => {
                 console.log(`[Error] - Sign in attempt is failing. Error: ${error.message}`);
@@ -99,11 +73,8 @@ class SignUpScreen extends Component {
             .done();
     }
     render() {
-<<<<<<< HEAD
         var username = TestData.getUserName();
         console.log(JSON.stringify(username));
-=======
->>>>>>> 34a2d5e07fb4319e06be5bfa9142a6b755452f19
         var _scrollView = ScrollView;
         return (
             <View style={Styles.containerParent}>
@@ -115,11 +86,7 @@ class SignUpScreen extends Component {
                 <View style={Styles.scrollView}>
                     <View style={StylesGlobal.containerAppsName}>
                         <Text style={StylesGlobal.textAppName}>
-<<<<<<< HEAD
                             {username}
-=======
-                            Mit Mart
->>>>>>> 34a2d5e07fb4319e06be5bfa9142a6b755452f19
                         </Text>
                     </View>
                     <View style={Styles.containerBody}>
@@ -170,11 +137,7 @@ class SignUpScreen extends Component {
                     <View style={Styles.containerBottom}>
                         <View style={Styles.containerButton}>
                             <TouchableOpacity
-<<<<<<< HEAD
                                 onPress={() => this.validation(
-=======
-                                onPress={() => this.signup(
->>>>>>> 34a2d5e07fb4319e06be5bfa9142a6b755452f19
                                     this.state.username,
                                     this.state.email,
                                     this.state.password,
