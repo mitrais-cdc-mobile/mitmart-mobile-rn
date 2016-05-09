@@ -7,14 +7,39 @@ import React, {
 } from 'react-native';
 import Styles from './style_welcome';
 
+import AsyncStorage from '../../async_storage/async_storage';
+var navigator;
+
 class SplashPage extends Component {
+    constructor(props) {
+        super(props);
+        navigator = props.navigator;
+        this.state = {};
+    }
 
     componentWillMount() {
-        var navigator = this.props.navigator;
+        this.navigateScreen();
+    }
+
+    doLogin() {
+        AsyncStorage.getIsLoggedIn()
+            .then((value) => {
+                console.log(`is Login : ${value}`);
+                if (value === 'true') {
+                    navigator.replace({
+                        id: 'HomeScreen',
+                    });
+                } else {
+                    navigator.replace({
+                        id: 'SignUpScreen',
+                    });
+                }
+            }).done();
+    }
+
+    navigateScreen() {
         setTimeout(() => {
-            navigator.replace({
-                id: 'SignUpScreen',
-            });
+            this.doLogin();
         }, 2000);
     }
     render() {

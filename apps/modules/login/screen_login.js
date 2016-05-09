@@ -13,33 +13,61 @@ import React, {
   TouchableOpacity
 } from 'react-native';
 import Styles from './style_login';
+import AsyncStorage from '../../async_storage/async_storage';
+import url from '../../app_config';
+import network from '../../helpers/network_helper';
 
 var {height, width} = Dimensions.get('window');
 
-var VALID_USERNAME = [
-  { username: 'admin', password: 'password' },
-  { username: 'rai', password: 'password' }
-];
-
+var navigator;
 class LoginScreen extends Component {
+  constructor(props) {
+    super(props);
+    navigator = props.navigator;
+    this.state = {
+      username: '',
+      password: ''
+    };
+  }
+
+  validation(username, password) {
+    if (!username && !password) {
+      Alert.alert('Login Failed', 'Username and Password required!');
+    } else if (!username.trim()) {
+      Alert.alert('Login Failed', 'Username is required!');
+    } else if (!password.trim()) {
+      Alert.alert('Login Failed', 'Password is required!');
+    } else {
+      this.signin(username, password);
+    }
+  }
+
   signin(username, password) {
-    const req = { username: username, password: password };
-    fetch("http://mtpc585.mitrais.com:3000/api/users/login", {
-      method: "POST",
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(req)
-    })
-      .then((response) => response.json())
+    const req = JSON.stringify({ username: username, password: password });
+    network.getDataPOST(url.LOGIN_URL, req)
       .then((data) => {
-        this.props.navigator.resetTo({
-          id: 'HomeScreen',
-          username: username,
-          loginId: data.id,
-          userId: data.userId
-        });
+        if (data.id) {
+          AsyncStorage.setUserInfo(username, data.id, data.ttl, data.created, data.userId);
+          return data;
+        } else if (data.error) {
+          Alert.alert('Login Failed', data.error.message);
+          return data.error;
+        }
+      })
+      .then((data) => {
+        if (data.id) {
+          navigator.resetTo({
+            id: 'HomeScreen',
+            username: username,
+            loginId: data.id,
+            userId: data.userId
+          });
+        } else {
+          Alert.alert('Login Failed', data.error.message);
+        }
       })
       .catch(error => {
-        console.log(`[Error] - Sign in attempt is failing. Error: ${error.message}`);
+        console.log(`[Error] - Sign in attempt is failing. Error: ${JSON.stringify(error)}`);
       })
       .done();
   }
@@ -82,7 +110,7 @@ class LoginScreen extends Component {
                 secureTextEntry= {true} />
             </View>
             <TouchableOpacity
-              onPress={() => this.signin(this.state.username, this.state.password) }
+              onPress={() => this.validation(this.state.username, this.state.password) }
               style={Styles.simpleButton}>
               <View >
                 <Text style={Styles.simpleButtonText}> Login</Text>
@@ -103,14 +131,6 @@ class LoginScreen extends Component {
         </View>
       </View>
     );
-  }
-
-  _onPressButton() {
-    // this.props.navigator.push({ id: 'HomeScreen' }); //it will back to previous screen
-    this.props.navigator.replace({
-      //it will replace previous screen, press back button will close the apps
-      id: 'HomeScreen',
-    });
   }
 
   onPressReset() {

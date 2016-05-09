@@ -11,29 +11,61 @@ import React, {
     ScrollView,
 } from 'react-native';
 import Styles from './style_sign_up';
-import StylesGlobal from '../../styles/styles'
+import StylesGlobal from '../../styles/styles';
+import TestData from '../../async_storage/async_storage';
+import url from '../../app_config';
+import network from '../../helpers/network_helper';
+
+var navigator;
 
 class SignUpScreen extends Component {
+    constructor(props) {
+        super(props);
+        navigator = props.navigator;
+        this.state = {
+            username: '',
+            password: '',
+            email: '',
+            phone: ''
+        };
+    }
+
     signin() {
-        this.props.navigator.push({
+        navigator.push({
             id: 'LoginScreen'
         });
     }
+
+    validation(username, email, password, phone) {
+        if (!username && !password && !email && !phone) {
+            Alert.alert('Sign-Up Failed', 'All Fields are required!');
+        } else if (!username.trim()) {
+            Alert.alert('Sign-Up Failed', 'Username is required!');
+        } else if (!email.trim()) {
+            Alert.alert('Sign-Up Failed', 'email is required!');
+        } else if (!password.trim()) {
+            Alert.alert('Sign-Up Failed', 'Password is required!');
+        } else if (!phone.trim()) {
+            Alert.alert('Sign-Up Failed', 'phone is required!');
+        } else {
+            this.signup(username, email, password, phone);
+        }
+    }
+
     signup(username, email, password, phone) {
-        const req = { username: username, email: email, password: password, phone: phone };
-        fetch("http://mtpc585.mitrais.com:3000/api/users", {
-            method: "POST",
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(req)
-        })
-            .then((response) => response.json())
+        const req = JSON.stringify({ username: username, email: email, password: password, phone: phone });
+        network.getDataPOST(url.SIGN_UP_URL, req)
             .then((data) => {
-                this.props.navigator.resetTo({
-                    id: 'HomeScreen',
-                    username: username,
-                    loginId: data.id,
-                    userId: data.userId
-                });
+                if (data.id) {
+                    navigator.resetTo({
+                        id: 'HomeScreen',
+                        username: username,
+                        loginId: data.id,
+                        userId: data.userId
+                    });
+                } else {
+                    Alert.alert('Sign-Up Failed', 'Sign-Up Failed!');
+                }
             })
             .catch(error => {
                 console.log(`[Error] - Sign in attempt is failing. Error: ${error.message}`);
@@ -41,6 +73,8 @@ class SignUpScreen extends Component {
             .done();
     }
     render() {
+        var username = TestData.getUserName();
+        console.log(JSON.stringify(username));
         var _scrollView = ScrollView;
         return (
             <View style={Styles.containerParent}>
@@ -52,7 +86,7 @@ class SignUpScreen extends Component {
                 <View style={Styles.scrollView}>
                     <View style={StylesGlobal.containerAppsName}>
                         <Text style={StylesGlobal.textAppName}>
-                            Mit Mart
+                            {username}
                         </Text>
                     </View>
                     <View style={Styles.containerBody}>
@@ -103,7 +137,7 @@ class SignUpScreen extends Component {
                     <View style={Styles.containerBottom}>
                         <View style={Styles.containerButton}>
                             <TouchableOpacity
-                                onPress={() => this.signup(
+                                onPress={() => this.validation(
                                     this.state.username,
                                     this.state.email,
                                     this.state.password,
