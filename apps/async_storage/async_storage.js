@@ -8,7 +8,6 @@ import network from '../app_config';
 exports.setUserInfo = (username, loginId, ttl, createdDate, userId) => {
     const data = { username: username, loginId: loginId, ttl: ttl, createdDate: createdDate, userId: userId };
     AsyncStorage.setItem('UserInfo', JSON.stringify(data));
-    AsyncStorage.setItem('isLogin', 'true');
 }
 
 exports.getUserInfo = () => {
@@ -19,19 +18,26 @@ exports.getUserName = () => {
     return 'Mit Mart';
 }
 
-exports.setLoggedOut = () => {
-    AsyncStorage.setItem('isLogin', 'false');
+exports.setLoggedOut = async () => {
+    try {
+        return await AsyncStorage.removeItem('UserInfo');
+    } catch (error) {
+        console.log('AsyncStorage error: ' + error.message);
+    }
 }
 
 exports.getIsLoggedIn = () => {
-    return AsyncStorage.getItem('isLogin');
-}
-
-exports.getData = (jsonBody, url) => {
-    const req = { username: "rai", password: "password" };
-    return     fetch(url, {
-      method: "POST",
-      headers: { 'Content-Type': 'application/json' },
-      body: jsonBody
-    });
+    var value = AsyncStorage.getItem('UserInfo');
+    return AsyncStorage.getItem('UserInfo')
+        .then((response) => {
+            const userInfo = response;
+            let isLoggedIn = true;
+            if (userInfo === null || typeof userInfo === 'undefined') {
+                isLoggedIn = false;
+            }
+            return new Promise((resolve, reject) => {
+                resolve(isLoggedIn);
+            }
+            );
+        });
 }

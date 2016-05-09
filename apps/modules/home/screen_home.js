@@ -37,16 +37,20 @@ class HomeScreen extends Component {
     };
 
     logout() {
-        this.setLoggedOut();
-        navigator.replace({
+        this.setLoggedOut().then((value) => {
+            navigator.replace({
             id: 'LoginScreen'
         });
+        });
+       
     }
 
     getUserData() {
         AsyncStorage.getUserInfo()
             .then((value) => {
+                 console.log(value);
                 data = JSON.parse(value);
+                console.log('data: ' + data);
                 this.setState({ username: data.username });
                 this.setState({ loginId: data.loginId });
                 this.setState({ ttl: data.ttl });
@@ -57,7 +61,7 @@ class HomeScreen extends Component {
     }
 
     setLoggedOut() {
-        AsyncStorage.setLoggedOut();
+       return AsyncStorage.setLoggedOut();
     }
 
     render() {

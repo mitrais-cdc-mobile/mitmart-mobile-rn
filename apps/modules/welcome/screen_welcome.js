@@ -23,18 +23,19 @@ class SplashPage extends Component {
 
     doLogin() {
         AsyncStorage.getIsLoggedIn()
-            .then((value) => {
-                console.log(`is Login : ${value}`);
-                if (value === 'true') {
+            .then((isLoggedIn) => {
+                if (isLoggedIn) {
+                    console.log('doLogin if : ' + isLoggedIn);
                     navigator.replace({
                         id: 'HomeScreen',
                     });
                 } else {
+                    console.log('doLogin else : ' + isLoggedIn);
                     navigator.replace({
                         id: 'SignUpScreen',
                     });
                 }
-            }).done();
+            });
     }
 
     navigateScreen() {
