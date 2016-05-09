@@ -34,7 +34,7 @@ class HomeScreen extends Component {
 
     openDrawer() {
         this.refs['DRAWER'].openDrawer()
-    }
+    };
 
     logout() {
         this.setLoggedOut();

@@ -19,10 +19,6 @@ import network from '../../helpers/network_helper';
 
 var {height, width} = Dimensions.get('window');
 
-var VALID_USERNAME = [
-  { username: 'admin', password: 'password' },
-  { username: 'rai', password: 'password' }
-];
 var navigator;
 class LoginScreen extends Component {
   constructor(props) {
