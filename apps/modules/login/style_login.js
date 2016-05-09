@@ -99,6 +99,7 @@ var styles = StyleSheet.create({
         width: 30,
         height: 30,
         alignSelf: 'stretch',
+        marginRight: 5
     },
     textLogo: {
         color: 'white',

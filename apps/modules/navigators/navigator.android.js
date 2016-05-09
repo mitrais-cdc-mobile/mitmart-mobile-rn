@@ -4,6 +4,7 @@ import React from 'react-native';
 import LoginScreen from '../login/screen_login';
 import HomeScreen from '../home/screen_home';
 import WelcomeScreen from '../welcome/screen_welcome';
+import SignUpScreen from '../sign_up/screen_sign_up';
 var {
     Component,
     Navigator,
@@ -28,25 +29,31 @@ class App extends Component {
 
     renderScene(route, navigator) {
         nav = navigator;
-        var routeId = route.id;
-        if (routeId === 'WelcomeScreen') {
-            return (
-                <WelcomeScreen
-                    navigator={navigator} />
-            );
-        }
-        if (routeId === 'LoginScreen') {
-            return (
-                <LoginScreen
-                    navigator={navigator} />
-            );
-        }
-        if (routeId === 'HomeScreen') {
-            return (
-                <HomeScreen
-                    navigator={navigator}
-                    username={route.username} />
-            );
+        let routeId = route.id;
+        switch (routeId) {
+            case 'WelcomeScreen':
+                return (
+                    <WelcomeScreen
+                        navigator={navigator} />
+                );
+            case 'LoginScreen':
+                return (
+                    <LoginScreen
+                        navigator={navigator} />
+                );
+            case 'HomeScreen':
+                return (
+                    <HomeScreen
+                        navigator={navigator}
+                        username={route.username}
+                        loginId={route.loginId}
+                        userId={route.userId} />
+                );
+            case 'SignUpScreen':
+                return (
+                    <SignUpScreen
+                        navigator={navigator} />
+                );
         }
     }
 }

@@ -13,6 +13,9 @@ import React, {
   TouchableOpacity
 } from 'react-native';
 import Styles from './style_login';
+import AsyncStorage from '../../async_storage/async_storage';
+import url from '../../app_config';
+import network from '../../helpers/network_helper';
 
 var {height, width} = Dimensions.get('window');
 
@@ -20,30 +23,57 @@ var VALID_USERNAME = [
   { username: 'admin', password: 'password' },
   { username: 'rai', password: 'password' }
 ];
-
+var navigator;
 class LoginScreen extends Component {
-  signin(username, password) {
-    let isValid = false;
-    this.setState({ message: 'Login Failed' });
-    for (var i = 0; i < VALID_USERNAME.length; i++) {
-      if (username === VALID_USERNAME[i].username && password === VALID_USERNAME[i].password) {
-        isValid = true;
-      }
-    }
-    if (isValid) {
-      //TODO: implement toast for iOS
-      ToastAndroid.show('Login Success!', ToastAndroid.SHORT);
-      this.setState({ message: '' });
-      // this.props.navigator.push({
-      this.props.navigator.replace({
-        id: 'HomeScreen',
-        username: username,
-        apiKey: '123'
-      });
+  constructor(props) {
+    super(props);
+    navigator = props.navigator;
+    this.state = {
+      username: '',
+      password: ''
+    };
+  }
+
+  validation(username, password) {
+    if (!username && !password) {
+      Alert.alert('Login Failed', 'Username and Password required!');
+    } else if (!username.trim()) {
+      Alert.alert('Login Failed', 'Username is required!');
+    } else if (!password.trim()) {
+      Alert.alert('Login Failed', 'Password is required!');
     } else {
-      //TODO: implement toast for iOS
-      ToastAndroid.show('Incorrect Username or Password!', ToastAndroid.SHORT);
+      this.signin(username, password);
     }
+  }
+
+  signin(username, password) {
+    const req = JSON.stringify({ username: username, password: password });
+    network.getDataPOST(url.LOGIN_URL, req)
+      .then((data) => {
+        if (data.id) {
+          AsyncStorage.setUserInfo(username, data.id, data.ttl, data.created, data.userId);
+          return data;
+        } else if (data.error) {
+          Alert.alert('Login Failed', data.error.message);
+          return data.error;
+        }
+      })
+      .then((data) => {
+        if (data.id) {
+          navigator.resetTo({
+            id: 'HomeScreen',
+            username: username,
+            loginId: data.id,
+            userId: data.userId
+          });
+        } else {
+          Alert.alert('Login Failed', data.error.message);
+        }
+      })
+      .catch(error => {
+        console.log(`[Error] - Sign in attempt is failing. Error: ${JSON.stringify(error)}`);
+      })
+      .done();
   }
 
   render() {
@@ -84,7 +114,7 @@ class LoginScreen extends Component {
                 secureTextEntry= {true} />
             </View>
             <TouchableOpacity
-              onPress={() => this.signin(this.state.username, this.state.password) }
+              onPress={() => this.validation(this.state.username, this.state.password) }
               style={Styles.simpleButton}>
               <View >
                 <Text style={Styles.simpleButtonText}> Login</Text>
@@ -105,14 +135,6 @@ class LoginScreen extends Component {
         </View>
       </View>
     );
-  }
-
-  _onPressButton() {
-    // this.props.navigator.push({ id: 'HomeScreen' }); //it will back to previous screen
-    this.props.navigator.replace({
-      //it will replace previous screen, press back button will close the apps
-      id: 'HomeScreen',
-    });
   }
 
   onPressReset() {
