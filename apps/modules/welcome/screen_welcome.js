@@ -1,10 +1,14 @@
 'use strict';
 
-import React, {
-    Component,
+import {
     Image,
     View
 } from 'react-native';
+
+import React, {
+    Component
+} from 'react';
+
 import Styles from './style_welcome';
 
 import AsyncStorage from '../../async_storage/async_storage';

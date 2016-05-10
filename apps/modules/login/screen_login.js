@@ -1,7 +1,6 @@
 'use strict';
 
-import React, {
-  Component,
+import {
   Dimensions,
   StyleSheet,
   Text,
@@ -12,6 +11,11 @@ import React, {
   Alert,
   TouchableOpacity
 } from 'react-native';
+
+import React, {
+  Component
+} from 'react';
+
 import Styles from './style_login';
 import AsyncStorage from '../../async_storage/async_storage';
 import url from '../../app_config';
