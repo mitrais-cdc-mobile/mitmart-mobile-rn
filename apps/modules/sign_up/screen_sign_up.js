@@ -16,12 +16,12 @@ import React, {
 
 import Styles from './style_sign_up';
 import StylesGlobal from '../../styles/styles';
-import TestData from '../../async_storage/async_storage';
+import AsyncStorage from '../../async_storage/async_storage';
 import url from '../../app_config';
 import network from '../../helpers/network_helper';
 
 var navigator;
-
+var value;
 class SignUpScreen extends Component {
     constructor(props) {
         super(props);
@@ -57,28 +57,42 @@ class SignUpScreen extends Component {
     }
 
     signup(username, email, password, phone) {
-        const req = JSON.stringify({ username: username, email: email, password: password, phone: phone });
+        let req = JSON.stringify({ username: username, email: email, password: password, phone: phone });
         network.getDataPOST(url.SIGN_UP_URL, req)
             .then((data) => {
                 if (data.id) {
+                    req = JSON.stringify({ username: username, password: password });
+                    return network.getDataPOST(url.LOGIN_URL, req);
+                } else {
+                    return data.error;
+                }
+            })
+            .then((data) => {
+                if (data.id) {
+                    value = data;
+                    return AsyncStorage.setUserInfo(username, data.id, data.ttl, data.created, data.userId);
+                } else {
+                    return data.error;
+                }
+            })
+            .then((data) => {
+                if (value.id) {
                     navigator.resetTo({
                         id: 'HomeScreen',
                         username: username,
-                        loginId: data.id,
-                        userId: data.userId
+                        loginId: value.id,
+                        userId: value.userId
                     });
                 } else {
                     Alert.alert('Sign-Up Failed', 'Sign-Up Failed!');
                 }
             })
             .catch(error => {
-                console.log(`[Error] - Sign in attempt is failing. Error: ${error.message}`);
+                console.log(`[Error] - Sign Up attempt is failing. Error: ${error.message}`);
             })
             .done();
     }
     render() {
-        var username = TestData.getUserName();
-        console.log(JSON.stringify(username));
         var _scrollView = ScrollView;
         return (
             <View style={Styles.containerParent}>
@@ -90,7 +104,7 @@ class SignUpScreen extends Component {
                 <View style={Styles.scrollView}>
                     <View style={StylesGlobal.containerAppsName}>
                         <Text style={StylesGlobal.textAppName}>
-                            {username}
+                            MitMart
                         </Text>
                     </View>
                     <View style={Styles.containerBody}>
