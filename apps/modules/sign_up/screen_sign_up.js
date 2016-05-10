@@ -68,8 +68,8 @@ class SignUpScreen extends Component {
                 }
             })
             .then((data) => {
+                value = data;
                 if (data.id) {
-                    value = data;
                     return AsyncStorage.setUserInfo(username, data.id, data.ttl, data.created, data.userId);
                 } else {
                     return data.error;
@@ -84,7 +84,7 @@ class SignUpScreen extends Component {
                         userId: value.userId
                     });
                 } else {
-                    Alert.alert('Sign-Up Failed', 'Sign-Up Failed!');
+                    Alert.alert('Sign-Up Failed', value.message);
                 }
             })
             .catch(error => {
