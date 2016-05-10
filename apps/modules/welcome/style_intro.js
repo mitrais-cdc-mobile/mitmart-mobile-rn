@@ -1,16 +1,17 @@
 'use strict';
 
-import React, {
+import {
     StyleSheet,
     Dimensions
 } from 'react-native';
+
+var {height, width} = Dimensions.get('window');
 
 const styles = StyleSheet.create({
   slide: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#9DD6EB',
     padding: 15,
   },
   text: {
@@ -18,6 +19,13 @@ const styles = StyleSheet.create({
     fontSize: 30,
     fontWeight: 'bold',
   },
+  splashImages: {
+        position: 'absolute',
+        left: 0,
+        top: 0,
+        width: width,
+        height: height
+    }
 });
 
 module.exports = styles;

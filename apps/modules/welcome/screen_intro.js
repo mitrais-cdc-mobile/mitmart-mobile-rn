@@ -1,11 +1,12 @@
-import React, {
-    AppRegistry,
-    Component,
-    StyleSheet,
+import {
     Text,
     View,
-    Alert,
+    Image,
 } from 'react-native';
+
+import React, {
+    Component
+} from 'react';
 
 import AppIntro from 'react-native-app-intro';
 import Styles from './style_intro';
@@ -37,22 +38,38 @@ class IntroPages extends Component {
                 onDoneBtnClick={this.doneBtnHandle}
                 onSkipBtnClick={this.onSkipBtnHandle}>
 
-                <View style={[Styles.slide, { backgroundColor: '#fa931d' }]}>
+                <View style={[Styles.slide]}>
+                    <Image
+                        style={Styles.splashImages}
+                        source={require('../../resources/bg_image.jpg') }>
+                    </Image>
                     <View level={10}><Text style={Styles.text}>Page 1</Text></View>
                     <View level={15}><Text style={Styles.text}>Page 1</Text></View>
                     <View level={8}><Text style={Styles.text}>Page 1</Text></View>
                 </View>
-                <View style={[Styles.slide, { backgroundColor: '#a4b602' }]}>
+                <View style={[Styles.slide]}>
+                    <Image
+                        style={Styles.splashImages}
+                        source={require('../../resources/splash_image.jpg') }>
+                    </Image>
                     <View level={-10}><Text style={Styles.text}>Page 2</Text></View>
                     <View level={5}><Text style={Styles.text}>Page 2</Text></View>
                     <View level={20}><Text style={Styles.text}>Page 2</Text></View>
                 </View>
-                <View style={[Styles.slide, { backgroundColor: '#fa931d' }]}>
+                <View style={[Styles.slide]}>
+                    <Image
+                        style={Styles.splashImages}
+                        source={require('../../resources/bg_image.jpg') }>
+                    </Image>
                     <View level={8}><Text style={Styles.text}>Page 3</Text></View>
                     <View level={0}><Text style={Styles.text}>Page 3</Text></View>
                     <View level={-10}><Text style={Styles.text}>Page 3</Text></View>
                 </View>
-                <View style={[Styles.slide, { backgroundColor: '#a4b602' }]}>
+                <View style={[Styles.slide]}>
+                    <Image
+                        style={Styles.splashImages}
+                        source={require('../../resources/splash_image.jpg') }>
+                    </Image>
                     <View level={5}><Text style={Styles.text}>Page 4</Text></View>
                     <View level={10}><Text style={Styles.text}>Page 4</Text></View>
                     <View level={15}><Text style={Styles.text}>Page 4</Text></View>
