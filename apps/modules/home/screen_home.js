@@ -1,14 +1,18 @@
 'use strict';
 
-import React, {
-    AppRegistry,
-    Component,
-    StyleSheet,
+import {
     Text,
     View,
     DrawerLayoutAndroid,
-    TouchableHighlight
+    TouchableHighlight,
+    StyleSheet
 } from 'react-native';
+
+import React, {
+    AppRegistry,
+    Component,
+
+} from 'react';
 
 import Styles from './style_home';
 import AsyncStorage from '../../async_storage/async_storage';
@@ -19,8 +23,8 @@ class HomeScreen extends Component {
     constructor(props) {
         super(props);
         navigator = props.navigator;
-        this.state = { 
-            username: '', 
+        this.state = {
+            username: '',
             loginId: '',
             ttl: '',
             createdDate: '',
@@ -39,16 +43,16 @@ class HomeScreen extends Component {
     logout() {
         this.setLoggedOut().then((value) => {
             navigator.replace({
-            id: 'LoginScreen'
+                id: 'LoginScreen'
+            });
         });
-        });
-       
+
     }
 
     getUserData() {
         AsyncStorage.getUserInfo()
             .then((value) => {
-                 console.log(value);
+                console.log(value);
                 data = JSON.parse(value);
                 console.log('data: ' + data);
                 this.setState({ username: data.username });
@@ -61,7 +65,7 @@ class HomeScreen extends Component {
     }
 
     setLoggedOut() {
-       return AsyncStorage.setLoggedOut();
+        return AsyncStorage.setLoggedOut();
     }
 
     render() {

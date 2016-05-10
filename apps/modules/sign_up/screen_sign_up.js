@@ -1,7 +1,6 @@
 'use strict';
 
-import React, {
-    Component,
+import {
     View,
     Image,
     TextInput,
@@ -10,6 +9,11 @@ import React, {
     Alert,
     ScrollView,
 } from 'react-native';
+
+import React, {
+    Component
+} from 'react';
+
 import Styles from './style_sign_up';
 import StylesGlobal from '../../styles/styles';
 import TestData from '../../async_storage/async_storage';

@@ -1,6 +1,6 @@
 'use strict';
 
-import React, {
+import {
     AsyncStorage
 } from 'react-native';
 import network from '../app_config';

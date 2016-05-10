@@ -1,9 +1,12 @@
 'use strict';
 
-import React, {
-    Component,
+import {
     Navigator    
 } from 'react-native';
+
+import React, {
+    Component 
+} from 'react';
 
 import LoginScreen from '../login/screen_login';
 import HomeScreen from '../home/screen_home';
