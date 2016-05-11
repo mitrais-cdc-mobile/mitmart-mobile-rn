@@ -11,15 +11,17 @@ import React, {
 
 import LoginScreen from '../login/screen_login';
 import HomeScreen from '../home/screen_home';
-import WelcomeScreen from '../welcome/screen_welcome';
+import SplashScreen from '../welcome/screen_splash';
 import SignUpScreen from '../sign_up/screen_sign_up';
+import IntroScreen from '../welcome/screen_intro';
+
 var nav;
 
 class App extends Component {
     render() {
         return (
             <Navigator
-                initialRoute={{ id: 'WelcomeScreen' }}
+                initialRoute={{ id: 'SplashScreen' }}
                 renderScene={this.renderScene.bind(this) }
                 configureScene={(route) => {
                     if (route.sceneConfig) {
@@ -34,9 +36,9 @@ class App extends Component {
         nav = navigator;
         let routeId = route.id;
         switch (routeId) {
-            case 'WelcomeScreen':
+            case 'SplashScreen':
                 return (
-                    <WelcomeScreen
+                    <SplashScreen
                         navigator={navigator} />
                 );
             case 'LoginScreen':
@@ -55,6 +57,11 @@ class App extends Component {
             case 'SignUpScreen':
                 return (
                     <SignUpScreen
+                        navigator={navigator} />
+                );
+           case 'IntroScreen':
+                return (
+                    <IntroScreen
                         navigator={navigator} />
                 );
         }
