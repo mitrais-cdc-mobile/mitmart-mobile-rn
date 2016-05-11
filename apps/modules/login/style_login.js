@@ -53,6 +53,7 @@ var styles = StyleSheet.create({
         shadowOpacity: 0.8,
         shadowRadius: 1,
         alignItems: 'center',
+        marginTop: 10
     },
     simpleButtonText: {
         color: 'white',
@@ -64,6 +65,7 @@ var styles = StyleSheet.create({
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
+        padding: 10
     },
     container: {
         width: 270,
@@ -100,6 +102,18 @@ var styles = StyleSheet.create({
         height: 30,
         alignSelf: 'stretch',
         marginRight: 5
+    },
+    imageEmail:{
+        width: 30,
+        height: 30,
+        alignSelf: 'stretch',
+        marginRight: 40
+    },
+    imageFacebook:{
+      width: 30,
+      height: 30,
+      alignSelf: 'stretch',
+      marginRight: 15  
     },
     textLogo: {
         color: 'white',

@@ -15,6 +15,7 @@ import SplashScreen from '../welcome/screen_splash';
 import SignUpScreen from '../sign_up/screen_sign_up';
 import IntroScreen from '../welcome/screen_intro';
 import ResetScreen from '../reset/screen_reset';
+import LoginScreenEmail from '../login/screen_login_email';
 
 var nav;
 
@@ -47,6 +48,11 @@ class App extends Component {
                     <LoginScreen
                         navigator={navigator} />
                 );
+            case 'LoginScreenEmail':
+                return (
+                    <LoginScreenEmail
+                        navigator={navigator} />
+                );
             case 'HomeScreen':
                 return (
                     <HomeScreen
@@ -60,7 +66,7 @@ class App extends Component {
                     <SignUpScreen
                         navigator={navigator} />
                 );
-           case 'IntroScreen':
+            case 'IntroScreen':
                 return (
                     <IntroScreen
                         navigator={navigator} />
