@@ -1,11 +1,11 @@
 'use strict';
 
 import {
-    Navigator    
+    Navigator
 } from 'react-native';
 
 import React, {
-    Component 
+    Component
 } from 'react';
 
 import LoginScreen from '../login/screen_login';
@@ -13,6 +13,7 @@ import HomeScreen from '../home/screen_home';
 import SplashScreen from '../welcome/screen_splash';
 import SignUpScreen from '../sign_up/screen_sign_up';
 import IntroScreen from '../welcome/screen_intro';
+import LoginScreenEmail from '../login/screen_login_email';
 
 let nav;
 class App extends Component {
@@ -42,6 +43,11 @@ class App extends Component {
             case 'LoginScreen':
                 return (
                     <LoginScreen
+                        navigator={navigator} />
+                );
+            case 'LoginScreenEmail':
+                return (
+                    <LoginScreenEmail
                         navigator={navigator} />
                 );
             case 'HomeScreen':
