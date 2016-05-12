@@ -3,9 +3,12 @@ package com.mitmartrn;
 import com.facebook.react.ReactActivity;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
+import com.facebook.FacebookSdk;
 
 import java.util.Arrays;
 import java.util.List;
+
+import com.mitmartrn.fblogin.FacebookLoginPackage; 
 
 public class MainActivity extends ReactActivity {
 
@@ -17,6 +20,13 @@ public class MainActivity extends ReactActivity {
     protected String getMainComponentName() {
         return "MitMartRN";
     }
+    
+    @Override
+    public void onCreate() {
+    super.onCreate();
+    FacebookSdk.sdkInitialize(getApplicationContext());
+    AppEventsLogger.activateApp(this);
+}
 
     /**
      * Returns whether dev mode should be enabled.
@@ -35,6 +45,7 @@ public class MainActivity extends ReactActivity {
     protected List<ReactPackage> getPackages() {
         return Arrays.<ReactPackage>asList(
             new MainReactPackage()
+            new FacebookLoginPackage()
         );
     }
 }
