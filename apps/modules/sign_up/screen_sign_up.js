@@ -34,7 +34,7 @@ class SignUpScreen extends Component {
         };
     }
 
-    signin() {
+    goToSignInScreen() {
         this.props.navigator.push({
             id: 'LoginScreen'
         });
@@ -55,18 +55,18 @@ class SignUpScreen extends Component {
         } else if (typeof (phone) == 'undefined' || phone.trim() == '') {
             Alert.alert('Sign-Up Failed', 'phone is required!');
         } else {
-            this.signup(username, email, password, phone);
+            this.doSignUp(username, email, password, phone);
         }
     }
 
-    signup(username, email, password, phone) {
+    doSignUp(username, email, password, phone) {
         this.setState({ visible: true });
         let req = JSON.stringify({ username: username, email: email, password: password, phone: phone });
         post.getData(Url.SIGN_UP_URL, req)
             .then((data) => {
                 this.setState({ visible: false });
                 if (data.id) {
-                    this.signin();
+                    this.goToSignInScreen();
                 } else {
                     Alert.alert('Sign-Up Failed', data.message);
                 }
