@@ -16,10 +16,13 @@ import React, {
   Component
 } from 'react';
 
+import Spinner from 'react-native-loading-spinner-overlay';
+import ProgressWheels from '../../components/progress_wheels/progress_wheels';
 import Styles from './style_login';
 import AsyncStorage from '../../async_storage/async_storage';
-import url from '../../app_config';
-import network from '../../helpers/network_helper';
+import Url from '../../app_config';
+import Network from '../../helpers/network_helper';
+var post = new Network.Post();
 
 var {height, width} = Dimensions.get('window');
 
@@ -30,7 +33,8 @@ class LoginScreen extends Component {
     navigator = props.navigator;
     this.state = {
       username: '',
-      password: ''
+      password: '',
+      visible: false
     };
   }
 
@@ -47,18 +51,19 @@ class LoginScreen extends Component {
   }
 
   signin(username, password) {
+    this.setState({ visible: true });
     const req = JSON.stringify({ username: username, password: password });
-    network.getDataPOST(url.LOGIN_URL, req)
+    post.getData(Url.LOGIN_URL, req)
       .then((data) => {
         if (data.id) {
           AsyncStorage.setUserInfo(username, data.id, data.ttl, data.created, data.userId);
           return data;
         } else if (data.error) {
-          Alert.alert('Login Failed', data.error.message);
           return data.error;
         }
       })
       .then((data) => {
+        this.setState({ visible: false });
         if (data.id) {
           navigator.resetTo({
             id: 'HomeScreen',
@@ -71,12 +76,15 @@ class LoginScreen extends Component {
         }
       })
       .catch(error => {
+        this.setState({ visible: false });
+        Alert.alert('Login Failed', JSON.stringify(error));
         console.log(`[Error] - Sign in attempt is failing. Error: ${JSON.stringify(error)}`);
       })
       .done();
   }
 
   render() {
+    var progressWheels = this.state.isLoading ? ProgressWheels : (<View/>);
     return (
       <View style={{ flex: 1, flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
         <View style={Styles.bgImageWrapper}>
@@ -89,6 +97,9 @@ class LoginScreen extends Component {
             style = {{ height: 200, width: 300, alignSelf: 'stretch' }}
             source={require('../../resources/mitmart_logo.png') }
             resizeMode='contain' />
+        </View>
+        <View style={{ flex: 1 }}>
+          <Spinner visible={this.state.visible} />
         </View>
         <View style={{ flex: 1, flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
           <View style={Styles.container}>

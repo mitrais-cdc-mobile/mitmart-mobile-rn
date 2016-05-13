@@ -14,42 +14,45 @@ import React, {
     Component
 } from 'react';
 
+import Spinner from 'react-native-loading-spinner-overlay';
 import Styles from './style_sign_up';
 import StylesGlobal from '../../styles/styles';
 import AsyncStorage from '../../async_storage/async_storage';
-import url from '../../app_config';
-import network from '../../helpers/network_helper';
-
-var navigator;
+import Url from '../../app_config';
+import Network from '../../helpers/network_helper';
+var post = new Network.Post();
 var value;
 class SignUpScreen extends Component {
     constructor(props) {
         super(props);
-        navigator = props.navigator;
         this.state = {
             username: '',
             password: '',
             email: '',
-            phone: ''
+            phone: '',
+            visible: false
         };
     }
 
     signin() {
-        navigator.push({
+        this.props.navigator.push({
             id: 'LoginScreen'
         });
     }
 
     validation(username, email, password, phone) {
+        const re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         if (!username && !password && !email && !phone) {
             Alert.alert('Sign-Up Failed', 'All Fields are required!');
-        } else if (!username.trim()) {
+        } else if (typeof (username) == 'undefined' || username.trim() == '') {
             Alert.alert('Sign-Up Failed', 'Username is required!');
-        } else if (!email.trim()) {
+        } else if (typeof (email) == 'undefined' || email.trim() == '') {
             Alert.alert('Sign-Up Failed', 'email is required!');
-        } else if (!password.trim()) {
+        } else if (!re.test(email)) {
+            Alert.alert('Sign-Up Failed', 'Invalid email format');
+        } else if (typeof (password) == 'undefined' || password.trim() == '') {
             Alert.alert('Sign-Up Failed', 'Password is required!');
-        } else if (!phone.trim()) {
+        } else if (typeof (phone) == 'undefined' || phone.trim() == '') {
             Alert.alert('Sign-Up Failed', 'phone is required!');
         } else {
             this.signup(username, email, password, phone);
@@ -57,43 +60,24 @@ class SignUpScreen extends Component {
     }
 
     signup(username, email, password, phone) {
+        this.setState({ visible: true });
         let req = JSON.stringify({ username: username, email: email, password: password, phone: phone });
-        network.getDataPOST(url.SIGN_UP_URL, req)
+        post.getData(Url.SIGN_UP_URL, req)
             .then((data) => {
+                this.setState({ visible: false });
                 if (data.id) {
-                    req = JSON.stringify({ username: username, password: password });
-                    return network.getDataPOST(url.LOGIN_URL, req);
+                    this.signin();
                 } else {
-                    return data.error;
-                }
-            })
-            .then((data) => {
-                value = data;
-                if (data.id) {
-                    return AsyncStorage.setUserInfo(username, data.id, data.ttl, data.created, data.userId);
-                } else {
-                    return data.error;
-                }
-            })
-            .then((data) => {
-                if (value.id) {
-                    navigator.resetTo({
-                        id: 'HomeScreen',
-                        username: username,
-                        loginId: value.id,
-                        userId: value.userId
-                    });
-                } else {
-                    Alert.alert('Sign-Up Failed', value.message);
+                    Alert.alert('Sign-Up Failed', data.message);
                 }
             })
             .catch(error => {
+                this.setState({ visible: false });
                 console.log(`[Error] - Sign Up attempt is failing. Error: ${error.message}`);
             })
             .done();
     }
     render() {
-        var _scrollView = ScrollView;
         return (
             <View style={Styles.containerParent}>
                 <View style={Styles.bgImageWrapper}>
@@ -101,7 +85,7 @@ class SignUpScreen extends Component {
                         source={require('../../resources/bg_image.jpg') }
                         style={Styles.bgImage} />
                 </View>
-                <View style={Styles.scrollView}>
+                <View style={Styles.containerTop}>
                     <View style={StylesGlobal.containerAppsName}>
                         <Text style={StylesGlobal.textAppName}>
                             MitMart
@@ -151,6 +135,9 @@ class SignUpScreen extends Component {
                                 onChangeText={(password) => this.setState({ password }) }
                                 secureTextEntry= {true} />
                         </View>
+                    </View>
+                    <View>
+                        <Spinner visible={this.state.visible} />
                     </View>
                     <View style={Styles.containerBottom}>
                         <View style={Styles.containerButton}>
