@@ -4,6 +4,8 @@ import React from 'react-native';
 import LoginScreen from '../login/screen_login';
 import HomeScreen from '../home/screen_home';
 import WelcomeScreen from '../welcome/screen_welcome';
+import ResetScreen from '../reset/screen_reset';
+
 var {
     Component,
     Navigator,
@@ -46,6 +48,12 @@ class App extends Component {
                 <HomeScreen
                     navigator={navigator}
                     username={route.username} />
+            );
+        }
+         if (routeId === 'ResetScreen') {
+            return (
+                <ResetScreen
+                    navigator={navigator} />
             );
         }
     }

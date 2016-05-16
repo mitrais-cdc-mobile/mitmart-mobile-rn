@@ -12,6 +12,7 @@ import React, {
   Alert,
   TouchableOpacity
 } from 'react-native';
+
 import Styles from './style_login';
 
 var {height, width} = Dimensions.get('window');
@@ -98,7 +99,7 @@ class LoginScreen extends Component {
             </Text>
             <Text
               style={Styles.textReset}
-              onPress={this.onPressReset} >
+              onPress={() => this.onPressReset()} >
               {'reset now!'}
             </Text>
           </View>
@@ -116,7 +117,9 @@ class LoginScreen extends Component {
   }
 
   onPressReset() {
-    Alert.alert('Reset', 'Are you sure want to reset your password?');
+    this.props.navigator.push({
+      id: 'ResetScreen',
+    });
   }
 }
 
