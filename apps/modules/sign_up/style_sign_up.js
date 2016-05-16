@@ -23,7 +23,7 @@ var styles = StyleSheet.create({
         alignItems: 'flex-start',
         justifyContent: 'center'
     },
-    scrollView: {
+    containerTop: {
         flex: 1,
         width: width,
     },
@@ -99,7 +99,7 @@ var styles = StyleSheet.create({
         shadowOpacity: 0.8,
         shadowRadius: 1,
         alignItems: 'center',
-        alignSelf:'stretch',
+        alignSelf: 'stretch',
         justifyContent: 'center'
     },
     simpleButtonText: {
