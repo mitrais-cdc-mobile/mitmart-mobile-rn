@@ -1,23 +1,28 @@
 'use strict';
 
-import React from 'react-native';
-import LoginScreen from '../login/screen_login';
-import HomeScreen from '../home/screen_home';
-import WelcomeScreen from '../welcome/screen_welcome';
-import ResetScreen from '../reset/screen_reset';
-
-var {
-    Component,
+import {
     Navigator,
     BackAndroid
-} = React;
+} from 'react-native';
+
+import React, {
+    Component
+} from 'react';
+
+import LoginScreen from '../login/screen_login';
+import HomeScreen from '../home/screen_home';
+import SplashScreen from '../welcome/screen_splash';
+import SignUpScreen from '../sign_up/screen_sign_up';
+import IntroScreen from '../welcome/screen_intro';
+import ResetScreen from '../reset/screen_reset';
+
 var nav;
 
 class App extends Component {
     render() {
         return (
             <Navigator
-                initialRoute={{ id: 'WelcomeScreen' }}
+                initialRoute={{ id: 'SplashScreen' }}
                 renderScene={this.renderScene.bind(this) }
                 configureScene={(route) => {
                     if (route.sceneConfig) {
@@ -30,25 +35,36 @@ class App extends Component {
 
     renderScene(route, navigator) {
         nav = navigator;
-        var routeId = route.id;
-        if (routeId === 'WelcomeScreen') {
-            return (
-                <WelcomeScreen
-                    navigator={navigator} />
-            );
-        }
-        if (routeId === 'LoginScreen') {
-            return (
-                <LoginScreen
-                    navigator={navigator} />
-            );
-        }
-        if (routeId === 'HomeScreen') {
-            return (
-                <HomeScreen
-                    navigator={navigator}
-                    username={route.username} />
-            );
+        let routeId = route.id;
+        switch (routeId) {
+            case 'SplashScreen':
+                return (
+                    <SplashScreen
+                        navigator={navigator} />
+                );
+            case 'LoginScreen':
+                return (
+                    <LoginScreen
+                        navigator={navigator} />
+                );
+            case 'HomeScreen':
+                return (
+                    <HomeScreen
+                        navigator={navigator}
+                        username={route.username}
+                        loginId={route.loginId}
+                        userId={route.userId} />
+                );
+            case 'SignUpScreen':
+                return (
+                    <SignUpScreen
+                        navigator={navigator} />
+                );
+           case 'IntroScreen':
+                return (
+                    <IntroScreen
+                        navigator={navigator} />
+                );
         }
          if (routeId === 'ResetScreen') {
             return (

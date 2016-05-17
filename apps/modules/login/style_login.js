@@ -1,6 +1,6 @@
 'use strict';
 
-import React, {
+import {
     StyleSheet
 } from 'react-native';
 
@@ -99,6 +99,7 @@ var styles = StyleSheet.create({
         width: 30,
         height: 30,
         alignSelf: 'stretch',
+        marginRight: 5
     },
     textLogo: {
         color: 'white',

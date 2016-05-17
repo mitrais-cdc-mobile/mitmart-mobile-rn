@@ -1,7 +1,6 @@
 'use strict';
 
-import React, {
-  Component,
+import {
   Dimensions,
   StyleSheet,
   Text,
@@ -13,41 +12,80 @@ import React, {
   TouchableOpacity
 } from 'react-native';
 
+import React, {
+  Component
+} from 'react';
+
+import Spinner from 'react-native-loading-spinner-overlay';
+import ProgressWheels from '../../components/progress_wheels/progress_wheels';
+
 import Styles from './style_login';
+import AsyncStorage from '../../async_storage/async_storage';
+import Url from '../../app_config';
+import Network from '../../helpers/network_helper';
+var post = new Network.Post();
 
 var {height, width} = Dimensions.get('window');
 
-var VALID_USERNAME = [
-  { username: 'admin', password: 'password' },
-  { username: 'rai', password: 'password' }
-];
-
+var navigator;
 class LoginScreen extends Component {
-  signin(username, password) {
-    let isValid = false;
-    this.setState({ message: 'Login Failed' });
-    for (var i = 0; i < VALID_USERNAME.length; i++) {
-      if (username === VALID_USERNAME[i].username && password === VALID_USERNAME[i].password) {
-        isValid = true;
-      }
-    }
-    if (isValid) {
-      //TODO: implement toast for iOS
-      ToastAndroid.show('Login Success!', ToastAndroid.SHORT);
-      this.setState({ message: '' });
-      // this.props.navigator.push({
-      this.props.navigator.replace({
-        id: 'HomeScreen',
-        username: username,
-        apiKey: '123'
-      });
+  constructor(props) {
+    super(props);
+    navigator = props.navigator;
+    this.state = {
+      username: '',
+      password: '',
+      visible: false
+    };
+  }
+
+  validation(username, password) {
+    if (!username && !password) {
+      Alert.alert('Login Failed', 'Username and Password required!');
+    } else if (!username.trim()) {
+      Alert.alert('Login Failed', 'Username is required!');
+    } else if (!password.trim()) {
+      Alert.alert('Login Failed', 'Password is required!');
     } else {
-      //TODO: implement toast for iOS
-      ToastAndroid.show('Incorrect Username or Password!', ToastAndroid.SHORT);
+      this.signin(username, password);
     }
   }
 
+  signin(username, password) {
+    this.setState({ visible: true });
+    const req = JSON.stringify({ username: username, password: password });
+    post.getData(Url.LOGIN_URL, req)
+      .then((data) => {
+        if (data.id) {
+          AsyncStorage.setUserInfo(username, data.id, data.ttl, data.created, data.userId);
+          return data;
+        } else if (data.error) {
+          return data.error;
+        }
+      })
+      .then((data) => {
+        this.setState({ visible: false });
+        if (data.id) {
+          navigator.resetTo({
+            id: 'HomeScreen',
+            username: username,
+            loginId: data.id,
+            userId: data.userId
+          });
+        } else {
+          Alert.alert('Login Failed', data.error.message);
+        }
+      })
+      .catch(error => {
+        this.setState({ visible: false });
+        Alert.alert('Login Failed', JSON.stringify(error));
+        console.log(`[Error] - Sign in attempt is failing. Error: ${JSON.stringify(error)}`);
+      })
+      .done();
+  }
+
   render() {
+    var progressWheels = this.state.isLoading ? ProgressWheels : (<View/>);
     return (
       <View style={{ flex: 1, flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
         <View style={Styles.bgImageWrapper}>
@@ -60,6 +98,9 @@ class LoginScreen extends Component {
             style = {{ height: 200, width: 300, alignSelf: 'stretch' }}
             source={require('../../resources/mitmart_logo.png') }
             resizeMode='contain' />
+        </View>
+        <View style={{ flex: 1 }}>
+          <Spinner visible={this.state.visible} />
         </View>
         <View style={{ flex: 1, flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
           <View style={Styles.container}>
@@ -85,7 +126,7 @@ class LoginScreen extends Component {
                 secureTextEntry= {true} />
             </View>
             <TouchableOpacity
-              onPress={() => this.signin(this.state.username, this.state.password) }
+              onPress={() => this.validation(this.state.username, this.state.password) }
               style={Styles.simpleButton}>
               <View >
                 <Text style={Styles.simpleButtonText}> Login</Text>
@@ -106,14 +147,6 @@ class LoginScreen extends Component {
         </View>
       </View>
     );
-  }
-
-  _onPressButton() {
-    // this.props.navigator.push({ id: 'HomeScreen' }); //it will back to previous screen
-    this.props.navigator.replace({
-      //it will replace previous screen, press back button will close the apps
-      id: 'HomeScreen',
-    });
   }
 
   onPressReset() {
