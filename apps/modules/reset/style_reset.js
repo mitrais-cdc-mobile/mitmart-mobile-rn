@@ -29,6 +29,7 @@ var styles = StyleSheet.create({
         borderColor: '#48209A',
         borderWidth: 1,
         borderRadius: 4,
+        padding: 5,
         shadowColor: 'darkgrey',
         shadowOffset: {
             width: 1,

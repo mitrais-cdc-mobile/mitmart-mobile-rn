@@ -17,7 +17,13 @@ import Styles from './style_reset';
 var {height, width} = Dimensions.get('window');
 
 class ResetScreen extends Component {
-    // TODO : Implement Reset Email Function At Here
+    constructor(props) {
+        super(props);
+        navigator = props.navigator;
+        this.state = {
+            email: ''
+        };
+    }
 
     render() {
         return (
@@ -41,18 +47,39 @@ class ResetScreen extends Component {
                                 source={require('../../resources/ic_messages.png') }/>
                             <TextInput
                                 ref = 'email'
+                                validate = {() => this.validateEmail(this.state.email) }
                                 style={Styles.inputText2}
                                 placeholder={`Please Input Your Email`}
                                 onChangeText={(email) => this.setState({ email }) } />
                         </View>
+                        <TouchableOpacity
+                            onPress={() => this.onPressReset(this.state.email) }
+                            keyboardType = {'email-address'}
+                            style={Styles.simpleButton}>
+                            <View >
+                                <Text style={Styles.simpleButtonText}>Reset my password</Text>
+                            </View>
+                        </TouchableOpacity>
                     </View>
                 </View>
             </View>
         );
     }
 
-     onPressReset() {
-        Alert.alert('Reset', 'An email has been sent');
+    onPressReset(email) {
+        if (this.validateEmail(email)) {
+            // TODO: Please implement service invoker to make a reset password request, and do the action according to the response of the request  
+            Alert.alert('Reset', 'An email has been sent');
+        }
+        else {
+            Alert.alert('Error', 'Invalid Email');
+        }
+    }
+
+    validateEmail(email) {
+        // regex from http://stackoverflow.com/questions/46155/validate-email-address-in-javascript
+        var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        return re.test(email);
     }
 }
 
