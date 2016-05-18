@@ -13,12 +13,16 @@ import React, {
   Component
 } from 'react';
 
-import {
+const FBSDK = require('react-native-fbsdk');
+const {
   LoginButton,
-  ShareDialog
-} from 'react-native-fbsdk';
+  ShareDialog,
+} = FBSDK;
 
 import Styles from './style_login';
+import AsyncStorage from '../../async_storage/async_storage';
+import url from '../../app_config';
+import network from '../../helpers/network_helper';
 
 var FacebookLoginManager = NativeModules.FacebookLoginManager;
 var FBLoginManager = NativeModules.FBLoginManager;
@@ -69,17 +73,20 @@ class LoginScreen extends Component {
     });
   }
 
+
   signinFacebook() {
     if (Platform.OS === 'ios') {
       FacebookLoginManager.newSession((error, info) => {
         if (error) {
           this.setState({ result: error });
-        } else {
+        }
+        else {
           this.setState({ result: info });
         }
       });
-    } else {
-      () => this.shareLinkWithShareDialog();
+    }
+    else {
+      this.shareLinkWithShareDialog.bind(this);
     }
   }
 
