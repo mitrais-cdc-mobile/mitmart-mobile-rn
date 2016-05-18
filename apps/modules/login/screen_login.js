@@ -18,18 +18,10 @@ import {
   ShareDialog
 } from 'react-native-fbsdk';
 
-const FBSDK = require('react-native-fbsdk');
-const {
-  LoginButton,
-  ShareDialog,
-} = FBSDK;
-
 import Styles from './style_login';
 import AsyncStorage from '../../async_storage/async_storage';
 import url from '../../app_config';
 import network from '../../helpers/network_helper';
-
-var {height, width} = Dimensions.get('window');
 
 var FacebookLoginManager = NativeModules.FacebookLoginManager;
 var FBLoginManager = NativeModules.FBLoginManager;
