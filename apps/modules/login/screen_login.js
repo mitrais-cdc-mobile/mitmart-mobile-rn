@@ -18,14 +18,25 @@ import {
   ShareDialog
 } from 'react-native-fbsdk';
 
+const FBSDK = require('react-native-fbsdk');
+const {
+  LoginButton,
+  ShareDialog,
+} = FBSDK;
+
 import Styles from './style_login';
+import AsyncStorage from '../../async_storage/async_storage';
+import url from '../../app_config';
+import network from '../../helpers/network_helper';
+
+var {height, width} = Dimensions.get('window');
 
 var FacebookLoginManager = NativeModules.FacebookLoginManager;
 var FBLoginManager = NativeModules.FBLoginManager;
 
- var itypeof = function (val) {
-      return Object.prototype.toString.call(val).replace(/(\[|object|\s|\])/g, '').toLowerCase();
-  };
+var itypeof = function (val) {
+  return Object.prototype.toString.call(val).replace(/(\[|object|\s|\])/g, '').toLowerCase();
+};
 
 class LoginScreen extends Component {
   constructor(props) {
@@ -33,35 +44,57 @@ class LoginScreen extends Component {
     this.state = {
       shareLinkContent: shareLinkContent
     };
-    
+
     const shareLinkContent = {
-       contentType: 'link',
-       contentUrl: "https://www.facebook.com/",
-     };
- 
+      contentType: 'link',
+      contentUrl: "https://www.facebook.com/",
+    };
+
   }
-  
+
   shareLinkWithShareDialog() {
-     var tmp = this;
-     ShareDialog.canShow(this.state.shareLinkContent).then(
-       function(canShow) {
-         if (canShow) {
-           return ShareDialog.show(tmp.state.shareLinkContent);
-         }
-       }
-     ).then(
-       function(result) {
-         if (result.isCancelled) {
-           alert('Share cancelled');           
-         } else {
-           alert('Share success');
-         }           
-       },
-       function(error) {
-         alert('Share fail with error: ' + error);
-       }
-     );
-    }
+    var tmp = this;
+    ShareDialog.canShow(this.androidState.shareLinkContent).then(
+      function (canShow) {
+        if (canShow) {
+          return ShareDialog.show(tmp.androidState.shareLinkContent);
+        }
+      }
+    ).then(
+      function (result) {
+        if (result.isCancelled) {
+          alert('Share cancelled');
+        } else {
+          alert('Share success');
+        }
+      },
+      function (error) {
+        alert('Share fail with error: ' + error);
+      }
+      );
+  }
+
+  shareLinkWithShareDialog() {
+    var tmp = this;
+    ShareDialog.canShow(this.state.shareLinkContent).then(
+      function (canShow) {
+        if (canShow) {
+          return ShareDialog.show(tmp.state.shareLinkContent);
+        }
+      }
+    ).then(
+      function (result) {
+        if (result.isCancelled) {
+          alert('Share cancelled');
+        } else {
+          alert('Share success');
+        }
+      },
+      function (error) {
+        alert('Share fail with error: ' + error);
+      }
+      );
+  }
 
   signinEmail() {
     this.props.navigator.push({
@@ -69,21 +102,37 @@ class LoginScreen extends Component {
     });
   }
 
+
   signinFacebook() {
-    if(Platform.OS === 'ios'){
-         FacebookLoginManager.newSession((error, info) => {
-         if (error){
-           this.setState({result: error});
-         }
-         else{
-           this.setState({result: info});
-         }
-       });
-     }
-     else
-     {
-       () => this.shareLinkWithShareDialog();
-     }
+    if (Platform.OS === 'ios') {
+      FacebookLoginManager.newSession((error, info) => {
+        if (error) {
+          this.setState({ result: error });
+        }
+        else {
+          this.setState({ result: info });
+        }
+      });
+    }
+    else {
+      this.shareLinkWithShareDialog.bind(this);
+    }
+  }
+
+  signinFacebook() {
+    if (Platform.OS === 'ios') {
+      FacebookLoginManager.newSession((error, info) => {
+        if (error) {
+          this.setState({ result: error });
+        }
+        else {
+          this.setState({ result: info });
+        }
+      });
+    }
+    else {
+      () => this.shareLinkWithShareDialog();
+    }
   }
 
   render() {
