@@ -23,11 +23,17 @@ import network from '../../helpers/network_helper';
 
 var {height, width} = Dimensions.get('window');
 
+<<<<<<< HEAD
 var navigator;
 class LoginScreenEmail extends Component {
   constructor(props) {
     super(props);
     navigator = props.navigator;
+=======
+class LoginScreenEmail extends Component {
+  constructor(props) {
+    super(props);
+>>>>>>> origin/createSocialMediaLogin
     this.state = {
       username: '',
       password: ''
@@ -60,7 +66,11 @@ class LoginScreenEmail extends Component {
       })
       .then((data) => {
         if (data.id) {
+<<<<<<< HEAD
           navigator.resetTo({
+=======
+          this.props.navigator.resetTo({
+>>>>>>> origin/createSocialMediaLogin
             id: 'HomeScreen',
             username: username,
             loginId: data.id,
@@ -76,6 +86,15 @@ class LoginScreenEmail extends Component {
       .done();
   }
 
+<<<<<<< HEAD
+=======
+  goToResetScreen() {
+    this.props.navigator.push({
+      id: 'ResetScreen',
+    });
+  }
+
+>>>>>>> origin/createSocialMediaLogin
   render() {
     return (
       <View style={{ flex: 1, flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
@@ -128,7 +147,11 @@ class LoginScreenEmail extends Component {
             </Text>
             <Text
               style={Styles.textReset}
+<<<<<<< HEAD
               onPress={this.onPressReset} >
+=======
+              onPress={() => this.goToResetScreen() } >
+>>>>>>> origin/createSocialMediaLogin
               {'reset now!'}
             </Text>
           </View>
@@ -136,10 +159,13 @@ class LoginScreenEmail extends Component {
       </View>
     );
   }
+<<<<<<< HEAD
 
   onPressReset() {
     Alert.alert('Reset', 'Are you sure want to reset your password?');
   }
+=======
+>>>>>>> origin/createSocialMediaLogin
 }
 
 module.exports = LoginScreenEmail;

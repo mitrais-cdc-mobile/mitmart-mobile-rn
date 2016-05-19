@@ -13,10 +13,18 @@ import React, {
   Component
 } from 'react';
 
+<<<<<<< HEAD
 import {
   LoginButton,
   ShareDialog
 } from 'react-native-fbsdk';
+=======
+const FBSDK = require('react-native-fbsdk');
+const {
+  LoginButton,
+  ShareDialog,
+} = FBSDK;
+>>>>>>> origin/createSocialMediaLogin
 
 import Styles from './style_login';
 import AsyncStorage from '../../async_storage/async_storage';
@@ -33,6 +41,7 @@ var itypeof = function (val) {
 class LoginScreen extends Component {
   constructor(props) {
     super(props);
+<<<<<<< HEAD
      const shareLinkContent = {
       contentType: 'link',
       contentUrl: "https://www.facebook.com/",
@@ -40,6 +49,15 @@ class LoginScreen extends Component {
     
     this.state = {
       shareLinkContent: shareLinkContent
+=======
+    this.state = {
+      shareLinkContent: shareLinkContent
+    };
+
+    const shareLinkContent = {
+      contentType: 'link',
+      contentUrl: "https://www.facebook.com/",
+>>>>>>> origin/createSocialMediaLogin
     };
 
   }
@@ -58,6 +76,7 @@ class LoginScreen extends Component {
           alert('Share cancelled');
         } else {
           alert('Share success');
+<<<<<<< HEAD
         }
       },
       function (error) {
@@ -85,6 +104,36 @@ class LoginScreen extends Component {
     }
     else {
       () => this.shareLinkWithShareDialog();
+=======
+        }
+      },
+      function (error) {
+        alert('Share fail with error: ' + error);
+      }
+      );
+  }
+
+  signinEmail() {
+    this.props.navigator.push({
+      id: 'LoginScreenEmail'
+    });
+  }
+
+
+  signinFacebook() {
+    if (Platform.OS === 'ios') {
+      FacebookLoginManager.newSession((error, info) => {
+        if (error) {
+          this.setState({ result: error });
+        }
+        else {
+          this.setState({ result: info });
+        }
+      });
+    }
+    else {
+      this.shareLinkWithShareDialog.bind(this);
+>>>>>>> origin/createSocialMediaLogin
     }
   }
 
@@ -108,7 +157,11 @@ class LoginScreen extends Component {
             </View>
           </TouchableOpacity>
           <TouchableOpacity
+<<<<<<< HEAD
             onPress={() => this.shareLinkWithShareDialog() }
+=======
+            onPress={() => this.signinFacebook() }
+>>>>>>> origin/createSocialMediaLogin
             style={Styles.simpleButton}>
             <View style={Styles.container2}>
               <Image
