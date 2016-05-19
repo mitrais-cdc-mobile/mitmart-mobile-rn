@@ -33,37 +33,15 @@ var itypeof = function (val) {
 class LoginScreen extends Component {
   constructor(props) {
     super(props);
+     const shareLinkContent = {
+      contentType: 'link',
+      contentUrl: "https://www.facebook.com/",
+    };
+    
     this.state = {
       shareLinkContent: shareLinkContent
     };
 
-    const shareLinkContent = {
-      contentType: 'link',
-      contentUrl: "https://www.facebook.com/",
-    };
-
-  }
-
-  shareLinkWithShareDialog() {
-    var tmp = this;
-    ShareDialog.canShow(this.androidState.shareLinkContent).then(
-      function (canShow) {
-        if (canShow) {
-          return ShareDialog.show(tmp.androidState.shareLinkContent);
-        }
-      }
-    ).then(
-      function (result) {
-        if (result.isCancelled) {
-          alert('Share cancelled');
-        } else {
-          alert('Share success');
-        }
-      },
-      function (error) {
-        alert('Share fail with error: ' + error);
-      }
-      );
   }
 
   shareLinkWithShareDialog() {
@@ -92,23 +70,6 @@ class LoginScreen extends Component {
     this.props.navigator.push({
       id: 'LoginScreenEmail'
     });
-  }
-
-
-  signinFacebook() {
-    if (Platform.OS === 'ios') {
-      FacebookLoginManager.newSession((error, info) => {
-        if (error) {
-          this.setState({ result: error });
-        }
-        else {
-          this.setState({ result: info });
-        }
-      });
-    }
-    else {
-      this.shareLinkWithShareDialog.bind(this);
-    }
   }
 
   signinFacebook() {
@@ -147,7 +108,7 @@ class LoginScreen extends Component {
             </View>
           </TouchableOpacity>
           <TouchableOpacity
-            onPress={() => this.signinFacebook() }
+            onPress={() => this.shareLinkWithShareDialog() }
             style={Styles.simpleButton}>
             <View style={Styles.container2}>
               <Image
