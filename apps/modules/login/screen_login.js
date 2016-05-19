@@ -18,6 +18,7 @@ import React, {
 
 import Spinner from 'react-native-loading-spinner-overlay';
 import ProgressWheels from '../../components/progress_wheels/progress_wheels';
+
 import Styles from './style_login';
 import AsyncStorage from '../../async_storage/async_storage';
 import Url from '../../app_config';
@@ -139,7 +140,7 @@ class LoginScreen extends Component {
             </Text>
             <Text
               style={Styles.textReset}
-              onPress={this.onPressReset} >
+              onPress={() => this.onPressReset()} >
               {'reset now!'}
             </Text>
           </View>
@@ -149,7 +150,9 @@ class LoginScreen extends Component {
   }
 
   onPressReset() {
-    Alert.alert('Reset', 'Are you sure want to reset your password?');
+    this.props.navigator.push({
+      id: 'ResetScreen',
+    });
   }
 }
 

@@ -159,7 +159,7 @@ class SignUpScreen extends Component {
                                 <View style={Styles.line}></View>
                             </View>
                             <TouchableOpacity
-                                onPress={() => this.signin() }
+                                onPress={() => this.goToSignInScreen() }
                                 style={Styles.simpleButton}>
                                 <View >
                                     <Text style={Styles.simpleButtonText}> Sign In</Text>
