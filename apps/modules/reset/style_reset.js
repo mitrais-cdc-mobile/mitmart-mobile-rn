@@ -62,9 +62,20 @@ var styles = StyleSheet.create({
     },
     containerTop: {
         flex: 1,
-        flexDirection: 'column',
+        marginTop: 20,
+        flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'center',
+    },
+    toolbar: {
+        paddingTop: 10,
+        flexDirection: 'row'
+    },
+    backimage: {
+        left: 10,
+        top: 10,
+        width: 30,
+        height: 30
     },
     container: {
         width: 270,
@@ -97,6 +108,7 @@ var styles = StyleSheet.create({
         marginTop: 5
     },
     image: {
+        right : 3,
         width: 30,
         height: 30,
         alignSelf: 'stretch',
@@ -110,9 +122,11 @@ var styles = StyleSheet.create({
         color: 'white',
         fontSize: 14
     },
-    textReset: {
+    textBack: {
+        top: 10,
+        left: 20,
         color: '#428BFF',
-        fontSize: 14,
+        fontSize: 18,
     }
 });
 

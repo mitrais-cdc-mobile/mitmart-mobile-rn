@@ -27,39 +27,54 @@ class ResetScreen extends Component {
 
     render() {
         return (
-            <View style={{ flex: 1, flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+            <View style={{ flexDirection: 'column' }}>
                 <View style={Styles.bgImageWrapper}>
                     <Image
                         source={require('../../resources/bg_image.jpg') }
                         style={Styles.bgImage} />
                 </View>
-                <View style={Styles.containerTop}>
-                    <Image
-                        style = {{ height: 200, width: 300, alignSelf: 'stretch' }}
-                        source={require('../../resources/mitmart_logo.png') }
-                        resizeMode='contain' />
-                </View>
-                <View style={{ flex: 1, flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-                    <View style={Styles.container}>
-                        <View style={Styles.container2}>
-                            <Image
-                                style = {Styles.image}
-                                source={require('../../resources/ic_messages.png') }/>
-                            <TextInput
-                                ref = 'email'
-                                validate = {() => this.validateEmail(this.state.email) }
-                                style={Styles.inputText2}
-                                placeholder={`Please Input Your Email`}
-                                onChangeText={(email) => this.setState({ email }) } />
-                        </View>
-                        <TouchableOpacity
-                            onPress={() => this.onPressReset(this.state.email) }
-                            keyboardType = {'email-address'}
-                            style={Styles.simpleButton}>
-                            <View >
-                                <Text style={Styles.simpleButtonText}>Reset my password</Text>
+                <TouchableOpacity
+                    style = { { height: 70 } }
+                    onPress={() => this.onPressBack() } >
+                    <View style={Styles.toolbar}>
+                        <Image
+                            style = { Styles.backimage }
+                            source={require('../../resources/ic_back_button.png') } />
+                        <Text
+                            style={Styles.textBack} >
+                            {'Sign Up/ Sign In'}
+                        </Text>
+                    </View>
+                </TouchableOpacity>
+                <View style={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+                    <View style={Styles.containerTop}>
+                        <Image
+                            style = {{ height: 200, width: 300, alignSelf: 'stretch' }}
+                            source={require('../../resources/mitmart_logo.png') }
+                            resizeMode='contain' />
+                    </View>
+                    <View style={{ top: 50, flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+                        <View style={Styles.container}>
+                            <View style={Styles.container2}>
+                                <Image
+                                    style = {Styles.image}
+                                    source={require('../../resources/ic_messages.png') }/>
+                                <TextInput
+                                    ref = 'email'
+                                    validate = {() => this.validateEmail(this.state.email) }
+                                    style={Styles.inputText2}
+                                    placeholder={`Please Input Your Email`}
+                                    onChangeText={(email) => this.setState({ email }) } />
                             </View>
-                        </TouchableOpacity>
+                            <TouchableOpacity
+                                onPress={() => this.onPressReset(this.state.email) }
+                                keyboardType = {'email-address'}
+                                style={Styles.simpleButton}>
+                                <View >
+                                    <Text style={Styles.simpleButtonText}>Reset My Password</Text>
+                                </View>
+                            </TouchableOpacity>
+                        </View>
                     </View>
                 </View>
             </View>
@@ -74,6 +89,10 @@ class ResetScreen extends Component {
         else {
             Alert.alert('Error', 'Invalid Email');
         }
+    }
+
+    onPressBack() {
+        this.props.navigator.pop();
     }
 
     validateEmail(email) {
