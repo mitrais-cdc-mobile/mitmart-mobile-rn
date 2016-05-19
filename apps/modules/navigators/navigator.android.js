@@ -14,10 +14,7 @@ import HomeScreen from '../home/screen_home';
 import SplashScreen from '../welcome/screen_splash';
 import SignUpScreen from '../sign_up/screen_sign_up';
 import IntroScreen from '../welcome/screen_intro';
-<<<<<<< HEAD
-=======
 import ResetScreen from '../reset/screen_reset';
->>>>>>> origin/createSocialMediaLogin
 import LoginScreenEmail from '../login/screen_login_email';
 
 var nav;
