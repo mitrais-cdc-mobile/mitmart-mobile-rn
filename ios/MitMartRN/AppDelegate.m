@@ -67,9 +67,11 @@
                                                                 openURL:url
                                                       sourceApplication:sourceApplication
                                                              annotation:annotation
-                  ];
-  // Add any custom logic here.
-  return handled;
+                  
+                  
+                ];
+
+    return handled;
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {

@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "113884141286",
+    "project_id": "mitmart-1293"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:113884141286:android:45619c94258e6c53",
+        "android_client_info": {
+          "package_name": "com.mitmartrn"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "113884141286-lb3s7ngort9lgr582vs62mdtjba215nt.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.mitmartrn",
+            "certificate_hash": "299C9685695BEF51F97B95B1E841AC1FA31E2025"
+          }
+        },
+        {
+          "client_id": "113884141286-195mo6vnddnhv0q78a3ia808k27e1gpq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDOkkdlptCgIARuxAyddazHTYwcAZY8DuQ"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

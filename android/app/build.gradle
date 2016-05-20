@@ -132,6 +132,7 @@ dependencies {
     compile "com.android.support:appcompat-v7:23.0.1"
     compile "com.facebook.react:react-native:+"  // From node_modules
     compile project(":react-native-fbsdk")
+    compile project(":react-native-google-signin")
     // compile project(":react-native-facebook-login")
     //compile 'com.facebook.android:facebook-android-sdk:[4,5)'
 }
@@ -147,3 +148,5 @@ task copyDownloadableDepsToLibs(type: Copy) {
   from configurations.compile
   into 'libs'
 }
+
+apply plugin:'com.google.gms.google-services'

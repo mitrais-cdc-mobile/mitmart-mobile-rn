@@ -24,7 +24,7 @@
 		5D3EE9071CE311FF006A19A9 /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5D3EE9041CE311FF006A19A9 /* Bolts.framework */; };
 		5D3EE9081CE311FF006A19A9 /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5D3EE9051CE311FF006A19A9 /* FBSDKCoreKit.framework */; };
 		5D3EE9091CE311FF006A19A9 /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5D3EE9061CE311FF006A19A9 /* FBSDKLoginKit.framework */; };
-		5D3EE90C1CE31389006A19A9 /* FacebookLoginManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D3EE90B1CE31389006A19A9 /* FacebookLoginManager.m */; };
+		5D5721891CEF1A3900BC97B8 /* FacebookLoginManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D5721881CEF1A3900BC97B8 /* FacebookLoginManager.m */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
 /* End PBXBuildFile section */
 
@@ -131,8 +131,8 @@
 		5D3EE9041CE311FF006A19A9 /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Bolts.framework; path = MitMartRN/Frameworks/Bolts.framework; sourceTree = "<group>"; };
 		5D3EE9051CE311FF006A19A9 /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKCoreKit.framework; path = MitMartRN/Frameworks/FBSDKCoreKit.framework; sourceTree = "<group>"; };
 		5D3EE9061CE311FF006A19A9 /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKLoginKit.framework; path = MitMartRN/Frameworks/FBSDKLoginKit.framework; sourceTree = "<group>"; };
-		5D3EE90A1CE31389006A19A9 /* FacebookLoginManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FacebookLoginManager.h; path = MitMartRN/FacebookLoginManager.h; sourceTree = "<group>"; };
-		5D3EE90B1CE31389006A19A9 /* FacebookLoginManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FacebookLoginManager.m; path = MitMartRN/FacebookLoginManager.m; sourceTree = "<group>"; };
+		5D5721871CEF1A3900BC97B8 /* FacebookLoginManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FacebookLoginManager.h; path = MitMartRN/Facebook/FacebookLoginManager.h; sourceTree = "<group>"; };
+		5D5721881CEF1A3900BC97B8 /* FacebookLoginManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FacebookLoginManager.m; path = MitMartRN/Facebook/FacebookLoginManager.m; sourceTree = "<group>"; };
 		78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTLinking.xcodeproj; path = "../node_modules/react-native/Libraries/LinkingIOS/RCTLinking.xcodeproj"; sourceTree = "<group>"; };
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "../node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -244,8 +244,7 @@
 		13B07FAE1A68108700A75B9A /* MitMartRN */ = {
 			isa = PBXGroup;
 			children = (
-				5D3EE90A1CE31389006A19A9 /* FacebookLoginManager.h */,
-				5D3EE90B1CE31389006A19A9 /* FacebookLoginManager.m */,
+				5D5721861CEF1A2700BC97B8 /* Facebook */,
 				5D3EE8DC1CE311CC006A19A9 /* Frameworks */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
@@ -274,6 +273,15 @@
 				5D3EE9061CE311FF006A19A9 /* FBSDKLoginKit.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		5D5721861CEF1A2700BC97B8 /* Facebook */ = {
+			isa = PBXGroup;
+			children = (
+				5D5721871CEF1A3900BC97B8 /* FacebookLoginManager.h */,
+				5D5721881CEF1A3900BC97B8 /* FacebookLoginManager.m */,
+			);
+			name = Facebook;
 			sourceTree = "<group>";
 		};
 		78C398B11ACF4ADC00677621 /* Products */ = {
@@ -567,7 +575,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5D3EE90C1CE31389006A19A9 /* FacebookLoginManager.m in Sources */,
+				5D5721891CEF1A3900BC97B8 /* FacebookLoginManager.m in Sources */,
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
 			);

@@ -17,7 +17,10 @@ const FBSDK = require('react-native-fbsdk');
 const {
   LoginButton,
   ShareDialog,
+  LoginManager,
 } = FBSDK;
+
+import {GoogleSignin, GoogleSigninButton} from 'react-native-google-signin';
 
 import Styles from './style_login';
 import AsyncStorage from '../../async_storage/async_storage';
@@ -34,48 +37,14 @@ var itypeof = function (val) {
 class LoginScreen extends Component {
   constructor(props) {
     super(props);
-     const shareLinkContent = {
+    const shareLinkContent = {
       contentType: 'link',
       contentUrl: "https://www.facebook.com/",
     };
-    
-    this.state = {
-      shareLinkContent: shareLinkContent
-    }
-  }
 
-  shareLinkWithShareDialog() {
-    if (Platform.OS === 'android') {
-      var tmp = this;
-      ShareDialog.canShow(this.state.shareLinkContent).then(
-      function (canShow) {
-        if (canShow) {
-          return ShareDialog.show(tmp.state.shareLinkContent);
-        }
-      }
-    ).then(
-      function (result) {
-        if (result.isCancelled) {
-          alert('Share cancelled');
-        } else {
-          alert('Share success');
-        }
-      },
-      function (error) {
-        alert('Share fail with error: ' + error);
-      }
-      );
-    }
-    else
-    {
-        FacebookLoginManager.newSession((error, info) => {
-        if (error) {
-          this.setState({ result: error });
-        }
-        else {
-          this.setState({ result: info });
-        }
-      });
+    this.state = {
+      shareLinkContent: shareLinkContent,
+      user: null
     }
   }
 
@@ -97,9 +66,33 @@ class LoginScreen extends Component {
       });
     }
     else {
-      () => this.shareLinkWithShareDialog();
+      LoginManager.logInWithReadPermissions(['public_profile', 'email']).then(
+        function (result) {
+          if (result.isCancelled) {
+            alert('Login cancelled');
+          }
+          else {
+            alert('login success with permissions:' + result.grantedPermissions.toString());
+          }
+        },
+        function (error) {
+          alert('login failed with error:' + error);
         }
+      )
     }
+  }
+
+  signInGoogle() {
+    GoogleSignin.signIn()
+      .then((user) => {
+        console.log(user);
+        this.setState({ user: user });
+      })
+      .catch((err) => {
+        console.log('WRONG SIGNIN', err);
+      })
+      .done();
+  }
 
   signinEmail() {
     this.props.navigator.push({
@@ -127,7 +120,7 @@ class LoginScreen extends Component {
             </View>
           </TouchableOpacity>
           <TouchableOpacity
-            onPress={() => this.shareLinkWithShareDialog() }
+            onPress={() => this.signinFacebook() }
             style={Styles.simpleButton}>
             <View style={Styles.container2}>
               <Image

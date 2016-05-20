@@ -11,6 +11,9 @@ import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
 import com.facebook.reactnative.androidsdk.FBSDKPackage;
 
+import co.apptailor.googlesignin.RNGoogleSigninModule;
+import co.apptailor.googlesignin.RNGoogleSigninPackage; 
+
 import java.util.Arrays;
 import java.util.List;
 
@@ -46,6 +49,7 @@ public class MainActivity extends ReactActivity{
         ReactPackage packages[] = new ReactPackage[]{
                 new MainReactPackage(),
                 new FBSDKPackage(mCallbackManager),
+                new RNGoogleSigninPackage(this)
         };
         return Arrays.<ReactPackage>asList(packages);
     }
