@@ -14,72 +14,70 @@ import React, {
     Component
 } from 'react';
 
+import Spinner from 'react-native-loading-spinner-overlay';
 import Styles from './style_sign_up';
 import StylesGlobal from '../../styles/styles';
-import TestData from '../../async_storage/async_storage';
-import url from '../../app_config';
-import network from '../../helpers/network_helper';
-
-var navigator;
-
+import AsyncStorage from '../../async_storage/async_storage';
+import Url from '../../app_config';
+import Network from '../../helpers/network_helper';
+var post = new Network.Post();
+var value;
 class SignUpScreen extends Component {
     constructor(props) {
         super(props);
-        navigator = props.navigator;
         this.state = {
             username: '',
             password: '',
             email: '',
-            phone: ''
+            phone: '',
+            visible: false
         };
     }
 
-    signin() {
-        navigator.push({
+    goToSignInScreen() {
+        this.props.navigator.push({
             id: 'LoginScreen'
         });
     }
 
     validation(username, email, password, phone) {
+        const re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         if (!username && !password && !email && !phone) {
             Alert.alert('Sign-Up Failed', 'All Fields are required!');
-        } else if (!username.trim()) {
+        } else if (typeof (username) == 'undefined' || username.trim() == '') {
             Alert.alert('Sign-Up Failed', 'Username is required!');
-        } else if (!email.trim()) {
+        } else if (typeof (email) == 'undefined' || email.trim() == '') {
             Alert.alert('Sign-Up Failed', 'email is required!');
-        } else if (!password.trim()) {
+        } else if (!re.test(email)) {
+            Alert.alert('Sign-Up Failed', 'Invalid email format');
+        } else if (typeof (password) == 'undefined' || password.trim() == '') {
             Alert.alert('Sign-Up Failed', 'Password is required!');
-        } else if (!phone.trim()) {
+        } else if (typeof (phone) == 'undefined' || phone.trim() == '') {
             Alert.alert('Sign-Up Failed', 'phone is required!');
         } else {
-            this.signup(username, email, password, phone);
+            this.doSignUp(username, email, password, phone);
         }
     }
 
-    signup(username, email, password, phone) {
-        const req = JSON.stringify({ username: username, email: email, password: password, phone: phone });
-        network.getDataPOST(url.SIGN_UP_URL, req)
+    doSignUp(username, email, password, phone) {
+        this.setState({ visible: true });
+        let req = JSON.stringify({ username: username, email: email, password: password, phone: phone });
+        post.getData(Url.SIGN_UP_URL, req)
             .then((data) => {
+                this.setState({ visible: false });
                 if (data.id) {
-                    navigator.resetTo({
-                        id: 'HomeScreen',
-                        username: username,
-                        loginId: data.id,
-                        userId: data.userId
-                    });
+                    this.goToSignInScreen();
                 } else {
-                    Alert.alert('Sign-Up Failed', 'Sign-Up Failed!');
+                    Alert.alert('Sign-Up Failed', data.message);
                 }
             })
             .catch(error => {
-                console.log(`[Error] - Sign in attempt is failing. Error: ${error.message}`);
+                this.setState({ visible: false });
+                console.log(`[Error] - Sign Up attempt is failing. Error: ${error.message}`);
             })
             .done();
     }
     render() {
-        var username = TestData.getUserName();
-        console.log(JSON.stringify(username));
-        var _scrollView = ScrollView;
         return (
             <View style={Styles.containerParent}>
                 <View style={Styles.bgImageWrapper}>
@@ -87,10 +85,10 @@ class SignUpScreen extends Component {
                         source={require('../../resources/bg_image.jpg') }
                         style={Styles.bgImage} />
                 </View>
-                <View style={Styles.scrollView}>
+                <View style={Styles.containerTop}>
                     <View style={StylesGlobal.containerAppsName}>
                         <Text style={StylesGlobal.textAppName}>
-                            {username}
+                            MitMart
                         </Text>
                     </View>
                     <View style={Styles.containerBody}>
@@ -138,6 +136,9 @@ class SignUpScreen extends Component {
                                 secureTextEntry= {true} />
                         </View>
                     </View>
+                    <View>
+                        <Spinner visible={this.state.visible} />
+                    </View>
                     <View style={Styles.containerBottom}>
                         <View style={Styles.containerButton}>
                             <TouchableOpacity
@@ -158,7 +159,7 @@ class SignUpScreen extends Component {
                                 <View style={Styles.line}></View>
                             </View>
                             <TouchableOpacity
-                                onPress={() => this.signin() }
+                                onPress={() => this.goToSignInScreen() }
                                 style={Styles.simpleButton}>
                                 <View >
                                     <Text style={Styles.simpleButtonText}> Sign In</Text>

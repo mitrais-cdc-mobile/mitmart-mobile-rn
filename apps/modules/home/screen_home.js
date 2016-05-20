@@ -1,6 +1,7 @@
 'use strict';
 
 import {
+    AppRegistry,
     Text,
     View,
     DrawerLayoutAndroid,
@@ -9,7 +10,6 @@ import {
 } from 'react-native';
 
 import React, {
-    AppRegistry,
     Component,
 
 } from 'react';

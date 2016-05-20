@@ -1,24 +1,28 @@
 'use strict';
 
 import {
-    Navigator    
+    Navigator
 } from 'react-native';
 
 import React, {
-    Component 
+    Component
 } from 'react';
 
 import LoginScreen from '../login/screen_login';
 import HomeScreen from '../home/screen_home';
-import WelcomeScreen from '../welcome/screen_welcome';
+import SplashScreen from '../welcome/screen_splash';
 import SignUpScreen from '../sign_up/screen_sign_up';
+import IntroScreen from '../welcome/screen_intro';
+import LoginScreenEmail from '../login/screen_login_email';
+import ResetScreen from '../reset/screen_reset';
+
 
 let nav;
 class App extends Component {
     render() {
         return (
             <Navigator
-                initialRoute={{ id: 'WelcomeScreen' }}
+                initialRoute={{ id: 'SplashScreen' }}
                 renderScene={this.renderScene.bind(this) }
                 configureScene={(route) => {
                     if (route.sceneConfig) {
@@ -33,14 +37,19 @@ class App extends Component {
         nav = navigator;
         let routeId = route.id;
         switch (routeId) {
-            case 'WelcomeScreen':
+            case 'SplashScreen':
                 return (
-                    <WelcomeScreen
+                    <SplashScreen
                         navigator={navigator} />
                 );
             case 'LoginScreen':
                 return (
                     <LoginScreen
+                        navigator={navigator} />
+                );
+            case 'LoginScreenEmail':
+                return (
+                    <LoginScreenEmail
                         navigator={navigator} />
                 );
             case 'HomeScreen':
@@ -56,6 +65,16 @@ class App extends Component {
                     <SignUpScreen
                         navigator={navigator} />
                 );
+            case 'IntroScreen':
+                return (
+                    <IntroScreen
+                        navigator={navigator} />
+                );
+            case 'ResetScreen':
+            return (
+                <ResetScreen
+                    navigator={navigator} />
+            );
         }
     }
 }

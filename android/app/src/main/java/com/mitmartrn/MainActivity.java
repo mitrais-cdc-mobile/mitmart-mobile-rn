@@ -1,14 +1,26 @@
 package com.mitmartrn;
 
+//Added import statement
+import android.content.Intent;
+import android.os.Bundle;
+
+import com.facebook.CallbackManager;
+import com.facebook.FacebookSdk;
 import com.facebook.react.ReactActivity;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
+import com.facebook.reactnative.androidsdk.FBSDKPackage;
+
+import co.apptailor.googlesignin.RNGoogleSigninModule;
+import co.apptailor.googlesignin.RNGoogleSigninPackage; 
 
 import java.util.Arrays;
 import java.util.List;
 
-public class MainActivity extends ReactActivity {
+public class MainActivity extends ReactActivity{
 
+      //Added code
+    CallbackManager mCallbackManager;
     /**
      * Returns the name of the main component registered from JavaScript.
      * This is used to schedule rendering of the component.
@@ -16,9 +28,8 @@ public class MainActivity extends ReactActivity {
     @Override
     protected String getMainComponentName() {
         return "MitMartRN";
-    }
-
-    /**
+    }  
+     /**
      * Returns whether dev mode should be enabled.
      * This enables e.g. the dev menu.
      */
@@ -33,8 +44,26 @@ public class MainActivity extends ReactActivity {
      */
     @Override
     protected List<ReactPackage> getPackages() {
-        return Arrays.<ReactPackage>asList(
-            new MainReactPackage()
-        );
+        //Added code
+        mCallbackManager = new CallbackManager.Factory().create();
+        ReactPackage packages[] = new ReactPackage[]{
+                new MainReactPackage(),
+                new FBSDKPackage(mCallbackManager),
+                new RNGoogleSigninPackage(this)
+        };
+        return Arrays.<ReactPackage>asList(packages);
+    }
+
+    //Added code
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        FacebookSdk.sdkInitialize(getApplicationContext());
+    }
+
+    //Added code
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        mCallbackManager.onActivityResult(requestCode, resultCode, data);
     }
 }

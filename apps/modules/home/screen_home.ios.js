@@ -1,12 +1,16 @@
-import React, {
+import {
   AppRegistry,
-  Component,
   StyleSheet,
   Text,
   View,
   TouchableHighlight,
   AlertIOS
 } from 'react-native';
+
+import React, {
+    Component,
+
+} from 'react';
 
 import AsyncStorage from '../../async_storage/async_storage';
 var data;

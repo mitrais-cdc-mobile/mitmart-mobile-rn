@@ -1,79 +1,103 @@
 'use strict';
 
 import {
-  Dimensions,
-  StyleSheet,
   Text,
   Image,
   View,
-  TextInput,
-  ToastAndroid,
-  Alert,
-  TouchableOpacity
+  TouchableOpacity,
+  NativeModules,
+  Platform
 } from 'react-native';
 
 import React, {
   Component
 } from 'react';
 
+const FBSDK = require('react-native-fbsdk');
+const {
+  LoginButton,
+  ShareDialog,
+  LoginManager,
+} = FBSDK;
+
+import {GoogleSignin, GoogleSigninButton} from 'react-native-google-signin';
+
 import Styles from './style_login';
 import AsyncStorage from '../../async_storage/async_storage';
 import url from '../../app_config';
 import network from '../../helpers/network_helper';
 
-var {height, width} = Dimensions.get('window');
+var FacebookLoginManager = NativeModules.FacebookLoginManager;
+var FBLoginManager = NativeModules.FBLoginManager;
 
-var navigator;
+var itypeof = function (val) {
+  return Object.prototype.toString.call(val).replace(/(\[|object|\s|\])/g, '').toLowerCase();
+};
+
 class LoginScreen extends Component {
   constructor(props) {
     super(props);
-    navigator = props.navigator;
-    this.state = {
-      username: '',
-      password: ''
+    const shareLinkContent = {
+      contentType: 'link',
+      contentUrl: "https://www.facebook.com/",
     };
-  }
 
-  validation(username, password) {
-    if (!username && !password) {
-      Alert.alert('Login Failed', 'Username and Password required!');
-    } else if (!username.trim()) {
-      Alert.alert('Login Failed', 'Username is required!');
-    } else if (!password.trim()) {
-      Alert.alert('Login Failed', 'Password is required!');
-    } else {
-      this.signin(username, password);
+    this.state = {
+      shareLinkContent: shareLinkContent,
+      user: null
     }
   }
 
-  signin(username, password) {
-    const req = JSON.stringify({ username: username, password: password });
-    network.getDataPOST(url.LOGIN_URL, req)
-      .then((data) => {
-        if (data.id) {
-          AsyncStorage.setUserInfo(username, data.id, data.ttl, data.created, data.userId);
-          return data;
-        } else if (data.error) {
-          Alert.alert('Login Failed', data.error.message);
-          return data.error;
+  signinEmail() {
+    this.props.navigator.push({
+      id: 'LoginScreenEmail'
+    });
+  }
+
+  signinFacebook() {
+    if (Platform.OS === 'ios') {
+      FacebookLoginManager.newSession((error, info) => {
+        if (error) {
+          this.setState({ result: error });
         }
-      })
-      .then((data) => {
-        if (data.id) {
-          navigator.resetTo({
-            id: 'HomeScreen',
-            username: username,
-            loginId: data.id,
-            userId: data.userId
-          });
-        } else {
-          Alert.alert('Login Failed', data.error.message);
+        else {
+          this.setState({ result: info });
         }
+      });
+    }
+    else {
+      LoginManager.logInWithReadPermissions(['public_profile', 'email']).then(
+        function (result) {
+          if (result.isCancelled) {
+            alert('Login cancelled');
+          }
+          else {
+            alert('login success with permissions:' + result.grantedPermissions.toString());
+          }
+        },
+        function (error) {
+          alert('login failed with error:' + error);
+        }
+      )
+    }
+  }
+
+  signInGoogle() {
+    GoogleSignin.signIn()
+      .then((user) => {
+        console.log(user);
+        this.setState({ user: user });
       })
-      .catch(error => {
-        console.log(`[Error] - Sign in attempt is failing. Error: ${JSON.stringify(error)}`);
+      .catch((err) => {
+        console.log('WRONG SIGNIN', err);
       })
       .done();
+  }
+
+  signinEmail() {
+    this.props.navigator.push({
+      id: 'LoginScreenEmail'
+    });
   }
 
   render() {
@@ -85,60 +109,29 @@ class LoginScreen extends Component {
             style={Styles.bgImage} />
         </View>
         <View style={Styles.containerTop}>
-          <Image
-            style = {{ height: 200, width: 300, alignSelf: 'stretch' }}
-            source={require('../../resources/mitmart_logo.png') }
-            resizeMode='contain' />
-        </View>
-        <View style={{ flex: 1, flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-          <View style={Styles.container}>
+          <TouchableOpacity
+            onPress={() => this.signinEmail() }
+            style={Styles.simpleButton}>
             <View style={Styles.container2}>
               <Image
-                style = {Styles.image}
+                style = {Styles.imageEmail}
                 source={require('../../resources/ic_messages.png') }/>
-              <TextInput
-                ref = 'username'
-                style={Styles.inputText2}
-                placeholder={`Username`}
-                onChangeText={(username) => this.setState({ username }) } />
+              <Text style={Styles.simpleButtonText}> sign in with Email</Text>
             </View>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => this.signinFacebook() }
+            style={Styles.simpleButton}>
             <View style={Styles.container2}>
               <Image
-                style = {Styles.image}
-                source={require('../../resources/ic_lock_large.png') }/>
-              <TextInput
-                ref='password'
-                style={Styles.inputText2}
-                placeholder={`Password`}
-                onChangeText={(password) => this.setState({ password }) }
-                secureTextEntry= {true} />
+                style = {Styles.imageFacebook}
+                source={require('../../resources/facebook.png') }/>
+              <Text style={Styles.simpleButtonText}> sign in with Facebook</Text>
             </View>
-            <TouchableOpacity
-              onPress={() => this.validation(this.state.username, this.state.password) }
-              style={Styles.simpleButton}>
-              <View >
-                <Text style={Styles.simpleButtonText}> Login</Text>
-              </View>
-            </TouchableOpacity>
-          </View>
-          <View style={Styles.containerReset}>
-            <Text
-              style={Styles.textForgot}>
-              {'Forgot password, '}
-            </Text>
-            <Text
-              style={Styles.textReset}
-              onPress={this.onPressReset} >
-              {'reset now!'}
-            </Text>
-          </View>
+          </TouchableOpacity>
         </View>
       </View>
     );
-  }
-
-  onPressReset() {
-    Alert.alert('Reset', 'Are you sure want to reset your password?');
   }
 }
 

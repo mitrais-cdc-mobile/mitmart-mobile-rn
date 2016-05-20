@@ -1,1 +1,0 @@
-//TODO: create custom view pager for iOS
