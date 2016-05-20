@@ -9,6 +9,7 @@
     "react": "^0.14.8",
     "react-native": "^0.25.1",
     "react-native-app-intro": "^1.0.2",
+    "react-native-fabric": "^0.2.1",
     "react-native-loading-spinner-overlay": "0.0.8"
   }
 }
