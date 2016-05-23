@@ -8,6 +8,7 @@ import {
     TouchableOpacity,
     Alert,
     ScrollView,
+    Picker
 } from 'react-native';
 
 import React, {
@@ -20,8 +21,11 @@ import StylesGlobal from '../../styles/styles';
 import AsyncStorage from '../../async_storage/async_storage';
 import Url from '../../app_config';
 import Network from '../../helpers/network_helper';
+
 var post = new Network.Post();
 var value;
+var accounts = ['Customer', 'Merchant'];
+
 class SignUpScreen extends Component {
     constructor(props) {
         super(props);
@@ -30,8 +34,15 @@ class SignUpScreen extends Component {
             password: '',
             email: '',
             phone: '',
-            visible: false
+            visible: false,
+            selectedAccount: '',
+            listAccount: []
         };
+    }
+
+    componentDidMount() {
+        this.setState({ selectedAccount: accounts[0] });
+        this.setState({ listAccount: accounts });
     }
 
     goToSignInScreen() {
@@ -40,7 +51,7 @@ class SignUpScreen extends Component {
         });
     }
 
-    validation(username, email, password, phone) {
+    validateData(username, email, password, phone, accountType) {
         const re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         if (!username && !password && !email && !phone) {
             Alert.alert('Sign-Up Failed', 'All Fields are required!');
@@ -54,21 +65,28 @@ class SignUpScreen extends Component {
             Alert.alert('Sign-Up Failed', 'Password is required!');
         } else if (typeof (phone) == 'undefined' || phone.trim() == '') {
             Alert.alert('Sign-Up Failed', 'phone is required!');
+        } else if (typeof (accountType) == 'undefined' || accountType.trim() == '') {
+            Alert.alert('Sign-Up Failed', 'phone is required!');
         } else {
-            this.doSignUp(username, email, password, phone);
+            this.doSignUp(username, email, password, phone, accountType);
         }
     }
 
-    doSignUp(username, email, password, phone) {
+    doSignUp(username, email, password, phone, accountType) {
         this.setState({ visible: true });
-        let req = JSON.stringify({ username: username, email: email, password: password, phone: phone });
+        let req = JSON.stringify({ username: username, email: email, password: password, phone: phone, accountType: accountType });
         post.getData(Url.SIGN_UP_URL, req)
             .then((data) => {
                 this.setState({ visible: false });
-                if (data.id) {
-                    this.goToSignInScreen();
+                if ((data.accountType) && (data.accountType == 'Customer')) {
+                    this.clearAllTextFields();
+                    Alert.alert('Sign-Up Success', 'Sign Up success. \nActivation email has been sent. \nPlease check your email to activate your account',
+                        [{ text: 'OK', onPress: () => this.goToSignInScreen() },]
+                    );
+                } else if ((data.accountType) && (data.accountType == 'Merchant')) {
+                    Alert.alert('Merchant', 'Not implement yet');
                 } else {
-                    Alert.alert('Sign-Up Failed', data.message);
+                    Alert.alert('Sign-Up Failed', data.message, );
                 }
             })
             .catch(error => {
@@ -77,6 +95,19 @@ class SignUpScreen extends Component {
             })
             .done();
     }
+
+    clearAllTextFields() {
+        this.clearText('email');
+        this.clearText('username');
+        this.clearText('phone_number');
+        this.clearText('password');
+        this.setState({ selectedAccount: accounts[0] });
+    }
+
+    clearText(fieldName) {
+        this.refs[fieldName].setNativeProps({ text: '' });
+    }
+
     render() {
         return (
             <View style={Styles.containerParent}>
@@ -135,6 +166,25 @@ class SignUpScreen extends Component {
                                 onChangeText={(password) => this.setState({ password }) }
                                 secureTextEntry= {true} />
                         </View>
+                        <View style={Styles.containerForm}>
+                            <Image
+                                style = {Styles.icon}
+                                source={require('../../resources/ic_rate_review_white.png') }/>
+                            <View style= {Styles.picker} >
+                                <Picker
+                                    ref = 'accountType'
+                                    style= {{ flex: 1 }}
+                                    selectedValue={this.state.selectedAccount}
+                                    onValueChange={(acc) => this.setState({ selectedAccount: acc }) }>
+                                    { this.state.listAccount.map((s, i) => {
+                                        return <Picker.Item
+                                            key={i}
+                                            value={s}
+                                            label={s} />
+                                    }) }
+                                </Picker>
+                            </View>
+                        </View>
                     </View>
                     <View>
                         <Spinner visible={this.state.visible} />
@@ -142,11 +192,12 @@ class SignUpScreen extends Component {
                     <View style={Styles.containerBottom}>
                         <View style={Styles.containerButton}>
                             <TouchableOpacity
-                                onPress={() => this.validation(
+                                onPress={() => this.validateData(
                                     this.state.username,
                                     this.state.email,
                                     this.state.password,
-                                    this.state.phone_number
+                                    this.state.phone_number,
+                                    this.state.selectedAccount
                                 ) }
                                 style={Styles.simpleButton}>
                                 <View >

@@ -99,7 +99,7 @@ class LoginScreen extends Component {
             source={require('../../resources/mitmart_logo.png') }
             resizeMode='contain' />
         </View>
-        <View style={{ flex: 1 }}>
+        <View>
           <Spinner visible={this.state.visible} />
         </View>
         <View style={{ flex: 1, flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
@@ -107,7 +107,7 @@ class LoginScreen extends Component {
             <View style={Styles.container2}>
               <Image
                 style = {Styles.image}
-                source={require('../../resources/ic_messages.png') }/>
+                source={require('../../resources/ic_person_white.png') }/>
               <TextInput
                 ref = 'username'
                 style={Styles.inputText2}
