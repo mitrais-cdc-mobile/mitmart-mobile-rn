@@ -85,8 +85,10 @@ class LoginScreen extends Component {
   signInGoogle() {
     GoogleSignin.signIn()
       .then((user) => {
-        console.log(user);
+        console.log('USER1', userr);
         this.setState({ user: user });
+         alert('login success');
+         console.log('USER2', user);
       })
       .catch((err) => {
         console.log('WRONG SIGNIN', err);
@@ -99,6 +101,27 @@ class LoginScreen extends Component {
       id: 'LoginScreenEmail'
     });
   }
+  
+    componentDidMount() {
+    GoogleSignin.hasPlayServices({ autoResolve: true }).then(() => {
+
+      GoogleSignin.configure({
+        scopes: ['https://www.googleapis.com/auth/calendar'],
+        webClientId: '113884141286-lb3s7ngort9lgr582vs62mdtjba215nt.apps.googleusercontent.com',
+        offlineAccess: true
+      });
+
+      GoogleSignin.currentUserAsync().then((user) => {
+        console.log('USER', user);
+        this.setState({user: user});
+      }).done();
+
+    })
+    .catch((err) => {
+      console.log("Play services error", err.code, err.message);
+    })
+    }
+
 
   render() {
     return (
@@ -127,6 +150,16 @@ class LoginScreen extends Component {
                 style = {Styles.imageFacebook}
                 source={require('../../resources/facebook.png') }/>
               <Text style={Styles.simpleButtonText}> sign in with Facebook</Text>
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => this.signInGoogle() }
+            style={Styles.simpleButton}>
+            <View style={Styles.container2}>
+              <Image
+                style = {Styles.imageFacebook}
+                source={require('../../resources/google.png') }/>
+              <Text style={Styles.simpleButtonText}> sign in with Google</Text>
             </View>
           </TouchableOpacity>
         </View>

@@ -18,6 +18,8 @@ import Styles from './style_home';
 import AsyncStorage from '../../async_storage/async_storage';
 var data;
 var navigator;
+var Fabric = require('react-native-fabric');
+var { Crashlytics } = Fabric;
 
 class HomeScreen extends Component {
     constructor(props) {
@@ -61,11 +63,19 @@ class HomeScreen extends Component {
                 this.setState({ createdDate: data.createdDate });
                 this.setState({ userId: data.userId });
                 console.log(this.state.loginInfo);
+                logCrashlyticUser();
             }).done();
     }
 
     setLoggedOut() {
         return AsyncStorage.setLoggedOut();
+    }
+    
+    logCrashlyticUser() {
+        Crashlytics.setUserName(this.state.username);
+        Crashlytics.setUserIdentifier(this.state.userId);
+        Crashlytics.setBool('has_posted', true);
+        Crashlytics.setString('organization', 'Mitrais CDC Mobile');
     }
 
     render() {

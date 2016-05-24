@@ -60,6 +60,11 @@ import com.android.build.OutputFile
  */
 
 apply from: "../../node_modules/react-native/react.gradle"
+apply plugin: 'io.fabric'
+
+repositories {
+  maven { url 'https://maven.fabric.io/public' }
+}
 
 /**
  * Set this to true to create two separate APKs instead of one:
@@ -135,6 +140,10 @@ dependencies {
     compile project(":react-native-google-signin")
     // compile project(":react-native-facebook-login")
     //compile 'com.facebook.android:facebook-android-sdk:[4,5)'
+    compile('com.crashlytics.sdk.android:crashlytics:2.5.5@aar') {
+        transitive = true;
+    }
+    compile project(':react-native-fabric')
 }
 // dependencies {
 //     compile 'com.facebook.react:react-native:0.18.+'

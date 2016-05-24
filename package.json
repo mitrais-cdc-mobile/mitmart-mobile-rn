@@ -12,6 +12,7 @@
     "react-native-facebook-login": "^1.0.3",
     "react-native-fbsdk": "^0.1.0",
     "react-native-google-signin": "^0.5.1",
+    "react-native-fabric": "^0.2.1",
     "react-native-loading-spinner-overlay": "0.0.8"
   }
 }
