@@ -1,0 +1,32 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "BC2B89ACFF82510EB7D23176FC24E862572B1157",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+    "8af9dae8-c72c-054d-927d-2fcf4f1c3c81++505" : {
+
+    }
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "BC2B89ACFF82510EB7D23176FC24E862572B1157" : 0,
+    "8af9dae8-c72c-054d-927d-2fcf4f1c3c81++505" : 0
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "EDF1B43F-C72C-4CAA-B7BD-8ECFE36E7782",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "BC2B89ACFF82510EB7D23176FC24E862572B1157" : "mitmart-mobile-rn\/",
+    "8af9dae8-c72c-054d-927d-2fcf4f1c3c81++505" : ".."
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "MitMartRN",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "ios\/MitMartRN.xcworkspace",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "http:\/\/cvs.mitrais.com:1197\/svn\/igotugot\/igotugot-ios",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Subversion",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "8af9dae8-c72c-054d-927d-2fcf4f1c3c81++505"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/irnafitriani\/mitmart-mobile-rn.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "BC2B89ACFF82510EB7D23176FC24E862572B1157"
+    }
+  ]
+}
