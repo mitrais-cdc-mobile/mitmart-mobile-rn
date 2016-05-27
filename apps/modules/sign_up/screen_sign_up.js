@@ -34,12 +34,16 @@ class SignUpScreen extends Component {
         };
     }
 
-    goToSignInScreen() {
+ goToAccountTypeScreen() {
         this.props.navigator.push({
-            id: 'LoginScreen'
+            id: 'AccountTypeScreen',
+            username: this.state.username,
+            password: this.state.password,
+            email: this.state.email,
+            phone: this.state.phone,
         });
     }
-
+    
     validation(username, email, password, phone) {
         const re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         if (!username && !password && !email && !phone) {
@@ -55,28 +59,10 @@ class SignUpScreen extends Component {
         } else if (typeof (phone) == 'undefined' || phone.trim() == '') {
             Alert.alert('Sign-Up Failed', 'phone is required!');
         } else {
-            this.doSignUp(username, email, password, phone);
+            this.goToAccountTypeScreen();
         }
     }
 
-    doSignUp(username, email, password, phone) {
-        this.setState({ visible: true });
-        let req = JSON.stringify({ username: username, email: email, password: password, phone: phone });
-        post.getData(Url.SIGN_UP_URL, req)
-            .then((data) => {
-                this.setState({ visible: false });
-                if (data.id) {
-                    this.goToSignInScreen();
-                } else {
-                    Alert.alert('Sign-Up Failed', data.message);
-                }
-            })
-            .catch(error => {
-                this.setState({ visible: false });
-                console.log(`[Error] - Sign Up attempt is failing. Error: ${error.message}`);
-            })
-            .done();
-    }
     render() {
         return (
             <View style={Styles.containerParent}>
@@ -118,10 +104,10 @@ class SignUpScreen extends Component {
                                 style = {Styles.icon}
                                 source={require('../../resources/ic_phone_white.png') }/>
                             <TextInput
-                                ref = 'phone_number'
+                                ref = 'phone'
                                 style={Styles.inputText}
                                 placeholder={`Phone Number`}
-                                onChangeText={(phone_number) => this.setState({ phone_number }) }
+                                onChangeText={(phone) => this.setState({ phone }) }
                                 keyboardType={'numeric'} />
                         </View>
                         <View style={Styles.containerForm}>
@@ -146,7 +132,7 @@ class SignUpScreen extends Component {
                                     this.state.username,
                                     this.state.email,
                                     this.state.password,
-                                    this.state.phone_number
+                                    this.state.phone
                                 ) }
                                 style={Styles.simpleButton}>
                                 <View >

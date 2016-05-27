@@ -15,6 +15,7 @@ import SplashScreen from '../welcome/screen_splash';
 import SignUpScreen from '../sign_up/screen_sign_up';
 import IntroScreen from '../welcome/screen_intro';
 import ResetScreen from '../reset/screen_reset';
+import AccountTypeScreen from '../account_type/screen_account_type';
 
 var nav;
 
@@ -65,6 +66,16 @@ class App extends Component {
                     <IntroScreen
                         navigator={navigator} />
                 );
+           case 'AccountTypeScreen':
+           return (
+                <AccountTypeScreen
+                    navigator={navigator} 
+                    username={route.username}
+                    password= {route.password} 
+                    email= {route.email} 
+                    phone= {route.phone}
+                 />               
+           );
         }
          if (routeId === 'ResetScreen') {
             return (
