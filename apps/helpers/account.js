@@ -6,8 +6,8 @@ module.exports = {
     client_secret: ''
   },
   
-  'instagram': {
-    client_id: 'e9f0bc8aec4f4ba8b1f8ad8bc2a5c611',
-    redirect_uri: 'https://www.instagram.com'
+  instagram: {
+    client_id: 'd3818a4338d64ffda9f6281493a92a1b',
+    redirect_uri: 'https://github.com/mitrais-cdc-mobile'
   }
 };
