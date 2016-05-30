@@ -43,14 +43,14 @@ class LoginScreen extends Component {
       contentType: 'link',
       contentUrl: "https://www.facebook.com/",
     };
-    
-      this.state = {
-        shareLinkContent: shareLinkContent,
-        user: null,
-        loading: false,
-      };
 
-    }
+    this.state = {
+      shareLinkContent: shareLinkContent,
+      user: null,
+      loading: false,
+    };
+
+  }
 
   signinEmail() {
     this.props.navigator.push({
@@ -63,13 +63,11 @@ class LoginScreen extends Component {
       FacebookLoginManager.newSession((error, info) => {
         if (error) {
           this.setState({ result: error });
-        }
-        else {
+        } else {
           this.setState({ result: info });
         }
       });
-    }
-    else {
+    } else {
       LoginManager.logInWithReadPermissions(['public_profile', 'email']).then(
         function (result) {
           if (result.isCancelled) {
@@ -134,8 +132,7 @@ class LoginScreen extends Component {
             loading: false
           });
         });
-    }
-    else {
+    } else {
       GoogleSignin.signIn().then
         ((user) => {
           console.log('USER1', user);
@@ -147,9 +144,9 @@ class LoginScreen extends Component {
     }
 
   }
-  
-  signinInstagram(){
-     if (Platform.OS === 'ios') {
+
+  signinInstagram() {
+    if (Platform.OS === 'ios') {
       simpleAuthClient.configure(accounts);
       this.setState({
         loading: true

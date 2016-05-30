@@ -1,6 +1,6 @@
 'use strict';
 
-import{
+import {
   NativeModules
 } from 'react-native';
 
@@ -22,7 +22,7 @@ class SimpleAuthClient {
    * @private
    */
   _configure(provider, config) {
-    return new Promise(function(resolve) {
+    return new Promise(function (resolve) {
       SimpleAuthWrapper.configure(provider, config, resolve);
     });
   }
@@ -84,7 +84,7 @@ class SimpleAuthClient {
 
   authorize(provider) {
     return new Promise((resolve, reject) => {
-      SimpleAuthWrapper.authorize(provider, function(error, credentials, info) {
+      SimpleAuthWrapper.authorize(provider, function (error, credentials, info) {
         if (error) {
           reject(error);
         } else {
