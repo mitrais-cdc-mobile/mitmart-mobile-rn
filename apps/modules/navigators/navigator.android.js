@@ -16,6 +16,7 @@ import SignUpScreen from '../sign_up/screen_sign_up';
 import IntroScreen from '../welcome/screen_intro';
 import ResetScreen from '../reset/screen_reset';
 import LoginScreenEmail from '../login/screen_login_email';
+import AccountTypeScreen from '../account_type/screen_account_type';
 
 var nav;
 
@@ -71,8 +72,13 @@ class App extends Component {
                     <IntroScreen
                         navigator={navigator} />
                 );
+            case 'AccountTypeScreen':
+                return (
+                    <AccountTypeScreen
+                        navigator={navigator} />
+                );
         }
-         if (routeId === 'ResetScreen') {
+        if (routeId === 'ResetScreen') {
             return (
                 <ResetScreen
                     navigator={navigator} />

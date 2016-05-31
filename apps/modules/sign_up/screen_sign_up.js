@@ -6,8 +6,7 @@ import {
     TextInput,
     Text,
     TouchableOpacity,
-    Alert,
-    ScrollView,
+    Alert
 } from 'react-native';
 
 import React, {
@@ -39,8 +38,8 @@ class SignUpScreen extends Component {
             id: 'LoginScreenEmail'
         });
     }
-    
-    goToSignInScreen(){
+
+    goToSignInScreen() {
         this.props.navigator.push({
             id: 'LoginScreen'
         });
@@ -67,7 +66,7 @@ class SignUpScreen extends Component {
 
     doSignUp(username, email, password, phone) {
         this.setState({ visible: true });
-        let req = JSON.stringify({ username: username, email: email, password: password, phone: phone, accountType:'Customer' });
+        let req = JSON.stringify({ username: username, email: email, password: password, phone: phone, accountType: 'Customer' });
         post.getData(Url.SIGN_UP_URL, req)
             .then((data) => {
                 this.setState({ visible: false });
