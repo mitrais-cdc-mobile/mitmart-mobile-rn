@@ -17,7 +17,7 @@
 			"type": "reactnative",
 			"request": "launch",
 			"platform": "ios",
-			"target": "iPhone 5s",
+			"target": "iPhone 6s",
 			"internalDebuggerPort": 9090,
 			"sourceMaps": true,
 			"outDir": "${workspaceRoot}/.vscode/.react"

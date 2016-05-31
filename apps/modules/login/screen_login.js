@@ -1,91 +1,187 @@
 'use strict';
 
 import {
-  Dimensions,
-  StyleSheet,
   Text,
   Image,
   View,
-  TextInput,
-  ToastAndroid,
-  Alert,
-  TouchableOpacity
+  TouchableOpacity,
+  NativeModules,
+  Platform
 } from 'react-native';
 
 import React, {
   Component
 } from 'react';
 
-import Spinner from 'react-native-loading-spinner-overlay';
-import ProgressWheels from '../../components/progress_wheels/progress_wheels';
+const FBSDK = require('react-native-fbsdk');
+const {
+  LoginButton,
+  ShareDialog,
+  LoginManager,
+} = FBSDK;
+
+import {GoogleSignin, GoogleSigninButton} from 'react-native-google-signin';
 
 import Styles from './style_login';
 import AsyncStorage from '../../async_storage/async_storage';
-import Url from '../../app_config';
-import Network from '../../helpers/network_helper';
-var post = new Network.Post();
+import url from '../../app_config';
+import network from '../../helpers/network_helper';
+import simpleAuthClient from '../../helpers/simpleauthclient';
+import accounts from '../../helpers/account';
 
-var {height, width} = Dimensions.get('window');
+var FacebookLoginManager = NativeModules.FacebookLoginManager;
+var FBLoginManager = NativeModules.FBLoginManager;
 
-var navigator;
+var itypeof = function (val) {
+  return Object.prototype.toString.call(val).replace(/(\[|object|\s|\])/g, '').toLowerCase();
+};
+
 class LoginScreen extends Component {
   constructor(props) {
     super(props);
-    navigator = props.navigator;
-    this.state = {
-      username: '',
-      password: '',
-      visible: false
+    const shareLinkContent = {
+      contentType: 'link',
+      contentUrl: "https://www.facebook.com/",
     };
+
+    this.state = {
+      shareLinkContent: shareLinkContent,
+      user: null,
+      loading: false,
+    };
+
   }
 
-  validation(username, password) {
-    if (!username && !password) {
-      Alert.alert('Login Failed', 'Username and Password required!');
-    } else if (!username.trim()) {
-      Alert.alert('Login Failed', 'Username is required!');
-    } else if (!password.trim()) {
-      Alert.alert('Login Failed', 'Password is required!');
+  signinEmail() {
+    this.props.navigator.push({
+      id: 'LoginScreenEmail'
+    });
+  }
+
+  signinFacebook() {
+    if (Platform.OS === 'ios') {
+      FacebookLoginManager.newSession((error, info) => {
+        if (error) {
+          this.setState({ result: error });
+        } else {
+          this.setState({ result: info });
+        }
+      });
     } else {
-      this.signin(username, password);
+      LoginManager.logInWithReadPermissions(['public_profile', 'email']).then(
+        function (result) {
+          if (result.isCancelled) {
+            alert('Login cancelled');
+          }
+          else {
+            alert('login success with permissions:' + result.grantedPermissions.toString());
+          }
+        },
+        function (error) {
+          alert('login failed with error:' + error);
+        }
+      )
     }
   }
 
-  signin(username, password) {
-    this.setState({ visible: true });
-    const req = JSON.stringify({ username: username, password: password });
-    post.getData(Url.LOGIN_URL, req)
-      .then((data) => {
-        if (data.id) {
-          AsyncStorage.setUserInfo(username, data.id, data.ttl, data.created, data.userId);
-          return data;
-        } else if (data.error) {
-          return data.error;
-        }
+  componentDidMount() {
+    GoogleSignin.hasPlayServices({ autoResolve: true }).then(() => {
+
+      GoogleSignin.configure({
+        scopes: ['https://www.googleapis.com/auth/userinfo.profile'],
+        webClientId: '113884141286-lb3s7ngort9lgr582vs62mdtjba215nt.apps.googleusercontent.com',
+        offlineAccess: true
+      });
+
+      GoogleSignin.currentUserAsync().then((user) => {
+        console.log('USER0', user);
+        this.setState({ user: user });
+      }).done();
+
+    })
+      .catch((err) => {
+        console.log("Play services error", err.code, err.message);
       })
-      .then((data) => {
-        this.setState({ visible: false });
-        if (data.id) {
-          navigator.resetTo({
-            id: 'HomeScreen',
-            username: username,
-            loginId: data.id,
-            userId: data.userId
-          });
-        } else {
-          Alert.alert('Login Failed', data.error.message);
-        }
-      })
-      .catch(error => {
-        this.setState({ visible: false });
-        Alert.alert('Login Failed', JSON.stringify(error));
-        console.log(`[Error] - Sign in attempt is failing. Error: ${JSON.stringify(error)}`);
-      })
-      .done();
   }
 
+  signInGoogle() {
+    if (Platform.OS === 'ios') {
+      simpleAuthClient.configure(accounts);
+      this.setState({
+        loading: true
+      });
+      simpleAuthClient.authorize('google-web')
+        .then(info => {
+          this.props.navigator.push({
+            title: 'google-web',
+            component: Profile,
+            passProps: {
+              info: info,
+              provider: 'google-web'
+            }
+          });
+          this.setState({
+            loading: false
+          });
+        })
+        .catch(error => {
+          alert('Authorize Error',error && error.description || '');
+          this.setState({
+            loading: false
+          });
+        });
+    } else {
+      GoogleSignin.signIn().then
+        ((user) => {
+          console.log('USER1', user);
+          this.setState({ user: user });
+        }).catch((err) => {
+          console.log('WRONG SIGN IN', err);
+        }).done();
+
+    }
+
+  }
+
+  signinInstagram() {
+    if (Platform.OS === 'ios') {
+      simpleAuthClient.configure(accounts);
+      this.setState({
+        loading: true
+      });
+      simpleAuthClient.authorize('instagram')
+        .then(info => {
+          this.props.navigator.push({
+            title: 'instagram',
+            component: Profile,
+            passProps: {
+              info: info,
+              provider: 'instagram'
+            }
+          });
+          this.setState({
+            loading: false
+          });
+        })
+        .catch(error => {
+          React.Alert.War(
+            'Authorize Error',
+            error && error.description || '');
+          this.setState({
+            loading: false
+          });
+        });
+    }
+  }
+
+  signinEmail() {
+    this.props.navigator.push({
+      id: 'LoginScreenEmail'
+    });
+  }
+
+
   render() {
-    var progressWheels = this.state.isLoading ? ProgressWheels : (<View/>);
     return (
       <View style={{ flex: 1, flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
         <View style={Styles.bgImageWrapper}>
@@ -94,65 +190,49 @@ class LoginScreen extends Component {
             style={Styles.bgImage} />
         </View>
         <View style={Styles.containerTop}>
-          <Image
-            style = {{ height: 200, width: 300, alignSelf: 'stretch' }}
-            source={require('../../resources/mitmart_logo.png') }
-            resizeMode='contain' />
-        </View>
-        <View style={{ flex: 1 }}>
-          <Spinner visible={this.state.visible} />
-        </View>
-        <View style={{ flex: 1, flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-          <View style={Styles.container}>
+          <TouchableOpacity
+            onPress={() => this.signinEmail() }
+            style={Styles.simpleButton}>
             <View style={Styles.container2}>
               <Image
-                style = {Styles.image}
+                style = {Styles.imageEmail}
                 source={require('../../resources/ic_messages.png') }/>
-              <TextInput
-                ref = 'username'
-                style={Styles.inputText2}
-                placeholder={`Username`}
-                onChangeText={(username) => this.setState({ username }) } />
+              <Text style={Styles.simpleButtonText}> sign in with Email</Text>
             </View>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => this.signinFacebook() }
+            style={Styles.simpleButton}>
             <View style={Styles.container2}>
               <Image
-                style = {Styles.image}
-                source={require('../../resources/ic_lock_large.png') }/>
-              <TextInput
-                ref='password'
-                style={Styles.inputText2}
-                placeholder={`Password`}
-                onChangeText={(password) => this.setState({ password }) }
-                secureTextEntry= {true} />
+                style = {Styles.imageFacebook}
+                source={require('../../resources/facebook.png') }/>
+              <Text style={Styles.simpleButtonText}> sign in with Facebook</Text>
             </View>
-            <TouchableOpacity
-              onPress={() => this.validation(this.state.username, this.state.password) }
-              style={Styles.simpleButton}>
-              <View >
-                <Text style={Styles.simpleButtonText}> Login</Text>
-              </View>
-            </TouchableOpacity>
-          </View>
-          <View style={Styles.containerReset}>
-            <Text
-              style={Styles.textForgot}>
-              {'Forgot password, '}
-            </Text>
-            <Text
-              style={Styles.textReset}
-              onPress={() => this.onPressReset()} >
-              {'reset now!'}
-            </Text>
-          </View>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => this.signInGoogle() }
+            style={Styles.simpleButton}>
+            <View style={Styles.container2}>
+              <Image
+                style = {Styles.imageFacebook}
+                source={require('../../resources/google.png') }/>
+              <Text style={Styles.simpleButtonText}> sign in with Google</Text>
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => this.signinInstagram() }
+            style={Styles.simpleButton}>
+            <View style={Styles.container2}>
+              <Image
+                style = {Styles.imageFacebook}
+                source={require('../../resources/instagram.png') }/>
+              <Text style={Styles.simpleButtonText}> sign in with Instagram</Text>
+            </View>
+          </TouchableOpacity>
         </View>
       </View>
     );
-  }
-
-  onPressReset() {
-    this.props.navigator.push({
-      id: 'ResetScreen',
-    });
   }
 }
 
