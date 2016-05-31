@@ -125,9 +125,7 @@ class LoginScreen extends Component {
           });
         })
         .catch(error => {
-          React.AlertIOS.alert(
-            'Authorize Error',
-            error && error.description || '');
+          alert('Authorize Error',error && error.description || '');
           this.setState({
             loading: false
           });
@@ -166,7 +164,7 @@ class LoginScreen extends Component {
           });
         })
         .catch(error => {
-          React.AlertIOS.alert(
+          React.Alert.War(
             'Authorize Error',
             error && error.description || '');
           this.setState({
