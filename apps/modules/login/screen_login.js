@@ -52,7 +52,12 @@ class LoginScreen extends Component {
       user: null,
       loading: false,
     };
+  }
 
+  goToAccountTypeScreen() {
+    this.props.navigator.push({
+      id: 'AccountTypeScreen'
+    });
   }
 
   signinEmail() {
@@ -68,23 +73,28 @@ class LoginScreen extends Component {
           this.setState({ result: error });
         } else {
           this.setState({ result: info });
-          alert('login with user ID:' + info.userId +'and Token:' + info.token);
+          alert('login with user ID:' + info.userId + 'and Token:' + info.token);
+          this.goToAccountTypeScreen();
         }
       });
     } else {
       LoginManager.logInWithReadPermissions(['public_profile', 'email']).then(
-        function (result) {
+        (result) => {
           if (result.isCancelled) {
             alert('Login cancelled');
-          }else {
+          } else {
             AccessToken.getCurrentAccessToken().then(
               (data) => {
                 alert('login with Token:' + data.accessToken.toString());
               }
             )
+
+            this.props.navigator.push({
+              id: 'AccountTypeScreen'
+            });
           }
         },
-        function (error) {
+        (error) => {
           alert('login failed with error:' + error);
         }
       )
@@ -92,20 +102,20 @@ class LoginScreen extends Component {
   }
 
   componentDidMount() {
-    GoogleSignin.hasPlayServices({ autoResolve: true }).then(() => {
+    GoogleSignin.hasPlayServices({ autoResolve: true })
+      .then(() => {
+        GoogleSignin.configure({
+          scopes: ['https://www.googleapis.com/auth/userinfo.profile'],
+          webClientId: '113884141286-lb3s7ngort9lgr582vs62mdtjba215nt.apps.googleusercontent.com',
+          offlineAccess: true
+        });
 
-      GoogleSignin.configure({
-        scopes: ['https://www.googleapis.com/auth/userinfo.profile'],
-        webClientId: '113884141286-lb3s7ngort9lgr582vs62mdtjba215nt.apps.googleusercontent.com',
-        offlineAccess: true
-      });
-
-      GoogleSignin.currentUserAsync().then((user) => {
-        console.log('USER0', user);
-        this.setState({ user: user });
-      }).done();
-
-    })
+        GoogleSignin.currentUserAsync()
+          .then((user) => {
+            console.log('USER0', user);
+            this.setState({ user: user });
+          }).done();
+      })
       .catch((err) => {
         console.log("Play services error", err.code, err.message);
       })
@@ -132,22 +142,21 @@ class LoginScreen extends Component {
           });
         })
         .catch(error => {
-          alert('Authorize Error',error && error.description || '');
+          alert('Authorize Error', error && error.description || '');
           this.setState({
             loading: false
           });
         });
     } else {
-      GoogleSignin.signIn().then
-        ((user) => {
+      GoogleSignin.signIn()
+        .then((user) => {
           console.log('USER1', user);
           this.setState({ user: user });
-        }).catch((err) => {
+        })
+        .catch((err) => {
           console.log('WRONG SIGN IN', err);
         }).done();
-
     }
-
   }
 
   signinInstagram() {
