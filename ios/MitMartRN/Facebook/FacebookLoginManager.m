@@ -29,10 +29,28 @@ RCT_EXPORT_METHOD(newSession:(RCTResponseSenderBlock)callback){
       FBSDKAccessToken *token = result.token;
       NSString *tokenString = token.tokenString;
       NSString *userId = token.userID;
+      NSLog(@"%@", token.permissions);
       NSDictionary *credentials = @{@"token" : tokenString, @"userId" : userId};
       callback (@[[NSNull null], credentials]);
+      
+      [self fetchUserInfo:token];
     }
   }];
+}
+
+-(void)fetchUserInfo :(FBSDKAccessToken *)token{
+  if (token) {
+    [[[FBSDKGraphRequest alloc] initWithGraphPath:@"me" parameters:@{@"fields" : @"id, name, link, first_name, last_name, email"}]startWithCompletionHandler:^(FBSDKGraphRequestConnection *connection, id result, NSError *error){
+    
+      if (!error) {
+        NSLog(@"resultis:%@",result);
+      }
+      else
+      {
+        NSLog(@"Error %@", error);
+      }
+    }];
+  }
 }
 
 @end

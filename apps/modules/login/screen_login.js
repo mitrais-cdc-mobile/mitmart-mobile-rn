@@ -18,6 +18,9 @@ const {
   LoginButton,
   ShareDialog,
   LoginManager,
+  AccessToken,
+  GraphRequest,
+  GraphRequestManafer,
 } = FBSDK;
 
 import {GoogleSignin, GoogleSigninButton} from 'react-native-google-signin';
@@ -65,6 +68,7 @@ class LoginScreen extends Component {
           this.setState({ result: error });
         } else {
           this.setState({ result: info });
+          alert('login with user ID:' + info.userId +'and Token:' + info.token);
         }
       });
     } else {
@@ -72,9 +76,12 @@ class LoginScreen extends Component {
         function (result) {
           if (result.isCancelled) {
             alert('Login cancelled');
-          }
-          else {
-            alert('login success with permissions:' + result.grantedPermissions.toString());
+          }else {
+            AccessToken.getCurrentAccessToken().then(
+              (data) => {
+                alert('login with Token:' + data.accessToken.toString());
+              }
+            )
           }
         },
         function (error) {
