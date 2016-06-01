@@ -23,11 +23,11 @@ import network from '../../helpers/network_helper';
 
 var {height, width} = Dimensions.get('window');
 var navigator;
-    
+
 class LoginScreenEmail extends Component {
   constructor(props) {
     super(props);
-  this.state = {
+    this.state = {
       username: '',
       password: ''
     };
@@ -65,10 +65,10 @@ class LoginScreenEmail extends Component {
             loginId: data.id,
             userId: data.userId
           });
-        }else {
+        } else {
           Alert.alert('Login Failed', data.error.message);
         }
-     })
+      })
       .catch(error => {
         console.log(`[Error] - Sign in attempt is failing. Error: ${JSON.stringify(error)}`);
       })
@@ -142,7 +142,7 @@ class LoginScreenEmail extends Component {
     );
   }
 
-  onPressReset(){
+  onPressReset() {
     Alert.alert('Reset', 'Are you sure want to reset your password?');
   }
 }

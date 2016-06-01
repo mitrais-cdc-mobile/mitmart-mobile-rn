@@ -6,8 +6,7 @@ import {
     TextInput,
     Text,
     TouchableOpacity,
-    Alert,
-    ScrollView,
+    Alert
 } from 'react-native';
 
 import React, {
@@ -32,6 +31,12 @@ class SignUpScreen extends Component {
             phone: '',
             visible: false
         };
+    }
+
+    goToSignInScreenEmail() {
+        this.props.navigator.push({
+            id: 'LoginScreenEmail'
+        });
     }
 
     goToSignInScreen() {
@@ -61,12 +66,12 @@ class SignUpScreen extends Component {
 
     doSignUp(username, email, password, phone) {
         this.setState({ visible: true });
-        let req = JSON.stringify({ username: username, email: email, password: password, phone: phone });
+        let req = JSON.stringify({ username: username, email: email, password: password, phone: phone, accountType: 'Customer' });
         post.getData(Url.SIGN_UP_URL, req)
             .then((data) => {
                 this.setState({ visible: false });
                 if (data.id) {
-                    this.goToSignInScreen();
+                    this.goToSignInScreenEmail();
                 } else {
                     Alert.alert('Sign-Up Failed', data.message);
                 }

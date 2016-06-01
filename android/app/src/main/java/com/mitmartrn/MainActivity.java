@@ -6,6 +6,9 @@ import android.os.Bundle;
 
 import com.facebook.CallbackManager;
 import com.facebook.FacebookSdk;
+import android.os.Bundle;
+
+import com.crashlytics.android.Crashlytics;
 import com.facebook.react.ReactActivity;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
@@ -14,13 +17,23 @@ import com.facebook.reactnative.androidsdk.FBSDKPackage;
 import co.apptailor.googlesignin.RNGoogleSigninModule;
 import co.apptailor.googlesignin.RNGoogleSigninPackage; 
 
+import com.smixx.fabric.FabricPackage;
+import io.fabric.sdk.android.Fabric;
+
 import java.util.Arrays;
 import java.util.List;
 
-public class MainActivity extends ReactActivity{
-
-      //Added code
+public class MainActivity extends ReactActivity {
+    
+          //Added code
     CallbackManager mCallbackManager;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        Fabric.with(this, new Crashlytics());
+        FacebookSdk.sdkInitialize(getApplicationContext());
+    }
     /**
      * Returns the name of the main component registered from JavaScript.
      * This is used to schedule rendering of the component.
@@ -49,18 +62,12 @@ public class MainActivity extends ReactActivity{
         ReactPackage packages[] = new ReactPackage[]{
                 new MainReactPackage(),
                 new FBSDKPackage(mCallbackManager),
-                new RNGoogleSigninPackage(this)
+                new RNGoogleSigninPackage(this),
+                new FabricPackage(this)
         };
         return Arrays.<ReactPackage>asList(packages);
     }
-
-    //Added code
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        FacebookSdk.sdkInitialize(getApplicationContext());
-    }
-
+    
     //Added code
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
