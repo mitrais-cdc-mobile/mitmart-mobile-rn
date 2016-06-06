@@ -31,6 +31,8 @@ Pods
 .idea
 .gradle
 local.properties
+gradle.properties
+*.iml
 
 # node.js
 #
@@ -42,3 +44,6 @@ buck-out/
 \.buckd/
 android/app/libs
 android/keystores/debug.keystore
+
+# vs code
+.vscode/
