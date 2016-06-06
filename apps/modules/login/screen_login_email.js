@@ -18,11 +18,10 @@ import React, {
 
 import Styles from './style_login';
 import AsyncStorage from '../../async_storage/async_storage';
-import url from '../../app_config';
-import network from '../../helpers/network_helper';
-
+import Url from '../../app_config';
+import Network from '../../helpers/network_helper';
+var post = new Network.Post();
 var {height, width} = Dimensions.get('window');
-var navigator;
 
 class LoginScreenEmail extends Component {
   constructor(props) {
@@ -47,10 +46,13 @@ class LoginScreenEmail extends Component {
 
   signin(username, password) {
     const req = JSON.stringify({ username: username, password: password });
-    network.getDataPOST(url.LOGIN_URL, req)
+    post.getData(Url.LOGIN_URL, req)
       .then((data) => {
         if (data.id) {
-          AsyncStorage.setUserInfo(username, data.id, data.ttl, data.created, data.userId);
+          //move async storage code to home & merchant wizard screen
+          if (data.id && (data.isWizardCompleted === undefined || data.isWizardCompleted === true)) {
+            AsyncStorage.setUserInfo(username, data.id, data.ttl, data.created, data.userId);
+          }
           return data;
         } else if (data.error) {
           Alert.alert('Login Failed', data.error.message);
@@ -58,13 +60,16 @@ class LoginScreenEmail extends Component {
         }
       })
       .then((data) => {
-        if (data.id) {
-          navigator.resetTo({
+        if (data.id && (data.isWizardCompleted === undefined || data.isWizardCompleted === true)) {
+          this.props.navigator.resetTo({
             id: 'HomeScreen',
             username: username,
             loginId: data.id,
-            userId: data.userId
+            userId: data.userId,
+            data: data
           });
+        } else if (data.id && data.isWizardCompleted === false) {
+          Alert.alert('Merchant Wizard', 'Merchant Wizard');
         } else {
           Alert.alert('Login Failed', data.error.message);
         }
@@ -97,7 +102,7 @@ class LoginScreenEmail extends Component {
         </View>
         <View style={{ flex: 1, flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
           <View style={Styles.container}>
-            <View style={Styles.container2}>
+            <View style={Styles.containerCenter}>
               <Image
                 style = {Styles.image}
                 source={require('../../resources/ic_messages.png') }/>
@@ -107,7 +112,7 @@ class LoginScreenEmail extends Component {
                 placeholder={`Username`}
                 onChangeText={(username) => this.setState({ username }) } />
             </View>
-            <View style={Styles.container2}>
+            <View style={Styles.containerCenter}>
               <Image
                 style = {Styles.image}
                 source={require('../../resources/ic_lock_large.png') }/>
@@ -120,7 +125,7 @@ class LoginScreenEmail extends Component {
             </View>
             <TouchableOpacity
               onPress={() => this.validation(this.state.username, this.state.password) }
-              style={Styles.simpleButton}>
+              style={[Styles.buttonBase, Styles.buttonPosCenter]}>
               <View >
                 <Text style={Styles.simpleButtonText}> Login</Text>
               </View>

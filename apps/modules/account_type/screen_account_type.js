@@ -65,7 +65,7 @@ class AccountTypeScreen extends Component {
                         <View style={Styles.container2}>
                             <Image
                                 style = {Styles.image}
-                                source={require('../../resources/ic_lock_large.png') }/>
+                                source={require('../../resources/ic_rate_review_white.png') }/>
                             <View style= {Styles.picker} >
                                 <Picker
                                     ref = 'accountType'

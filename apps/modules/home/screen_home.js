@@ -63,7 +63,7 @@ class HomeScreen extends Component {
                 this.setState({ createdDate: data.createdDate });
                 this.setState({ userId: data.userId });
                 console.log(this.state.loginInfo);
-                logCrashlyticUser();
+                this.logCrashlyticUser();
             }).done();
     }
 
