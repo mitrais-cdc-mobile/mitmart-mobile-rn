@@ -54,7 +54,7 @@ var styles = StyleSheet.create({
         borderRadius: 4,
     },
     containerForm: {
-        height: 30,
+        height: 40,
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'center',
@@ -63,13 +63,14 @@ var styles = StyleSheet.create({
     icon: {
         width: 30,
         height: 30,
-        alignSelf: 'stretch',
-        marginRight: 5
+        marginRight: 5,
+        alignSelf: 'center',
+        justifyContent: 'center'
     },
     inputText: {
         flexDirection: 'row',
         flex: 1,
-        height: 30,
+        height: 40,
         backgroundColor: 'white',
         borderColor: '#48209A',
         borderWidth: 1,
@@ -125,6 +126,11 @@ var styles = StyleSheet.create({
         color: 'white',
         marginRight: 5,
         marginLeft: 5
+    },
+    picker: {
+        flex: 1,
+        backgroundColor: 'white',
+        height: 40
     }
 });
 

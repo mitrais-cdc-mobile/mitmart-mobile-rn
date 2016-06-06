@@ -24,7 +24,7 @@ var styles = StyleSheet.create({
     inputText2: {
         flexDirection: 'row',
         flex: 1,
-        height: 30,
+        height: 40,
         backgroundColor: 'white',
         borderColor: '#48209A',
         borderWidth: 1,
@@ -77,7 +77,7 @@ var styles = StyleSheet.create({
         padding: 10
     },
     container2: {
-        height: 30,
+        height: 40,
         width: 250,
         flexDirection: 'row',
         alignItems: 'center',
@@ -100,7 +100,8 @@ var styles = StyleSheet.create({
     image: {
         width: 30,
         height: 30,
-        alignSelf: 'stretch',
+        alignSelf: 'center',
+        justifyContent: 'center',
         marginRight: 5
     },
     imageEmail:{
