@@ -37,14 +37,11 @@ var styles = StyleSheet.create({
         shadowOpacity: 0.8,
         shadowRadius: 1,
     },
-    simpleButton: {
-        width: 250,
+    buttonBase: {
         backgroundColor: '#428BFF',
         borderColor: '#275399',
         borderWidth: 1,
         borderRadius: 4,
-        paddingHorizontal: 10,
-        paddingVertical: 5,
         shadowColor: 'darkgrey',
         shadowOffset: {
             width: 1,
@@ -52,13 +49,30 @@ var styles = StyleSheet.create({
         },
         shadowOpacity: 0.8,
         shadowRadius: 1,
+    },
+    buttonPosCenter: {
+        width: 250,
         alignItems: 'center',
-        marginTop: 10
+        marginTop: 10,
+        paddingHorizontal: 10,
+        paddingVertical: 5,
+    },
+    buttonPosStart: {
+        width: 250,
+        alignItems: 'flex-start',
+        marginTop: 10,
+        paddingHorizontal: 10,
+        paddingVertical: 0,
     },
     simpleButtonText: {
         color: 'white',
         fontWeight: 'bold',
         fontSize: 16
+    },
+    simpleButtonTextPosition: {
+        alignSelf: 'center',
+        justifyContent: 'center',
+        marginRight: 5
     },
     containerTop: {
         flex: 1,
@@ -76,7 +90,14 @@ var styles = StyleSheet.create({
         borderRadius: 4,
         padding: 10
     },
-    container2: {
+    containerStart: {
+        height: 40,
+        width: 250,
+        flexDirection: 'row',
+        alignItems: 'flex-start',
+        justifyContent: 'flex-start'
+    },
+    containerCenter: {
         height: 40,
         width: 250,
         flexDirection: 'row',
@@ -104,17 +125,17 @@ var styles = StyleSheet.create({
         justifyContent: 'center',
         marginRight: 5
     },
-    imageEmail:{
+    imageEmail: {
         width: 30,
         height: 30,
         alignSelf: 'stretch',
         marginRight: 40
     },
-    imageFacebook:{
-      width: 30,
-      height: 30,
-      alignSelf: 'stretch',
-      marginRight: 15  
+    imageFacebook: {
+        width: 30,
+        height: 30,
+        alignSelf: 'stretch',
+        marginRight: 15
     },
     textLogo: {
         color: 'white',

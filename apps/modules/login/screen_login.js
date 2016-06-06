@@ -199,42 +199,42 @@ class LoginScreen extends Component {
         <View style={Styles.containerTop}>
           <TouchableOpacity
             onPress={() => this.signinEmail() }
-            style={Styles.simpleButton}>
-            <View style={Styles.container2}>
+            style={[Styles.buttonBase, Styles.buttonPosStart]}>
+            <View style={Styles.containerStart}>
               <Image
-                style = {Styles.imageEmail}
+                style = {Styles.image}
                 source={require('../../resources/ic_messages.png') }/>
-              <Text style={Styles.simpleButtonText}> sign in with Email</Text>
+              <Text style={[Styles.simpleButtonText, Styles.simpleButtonTextPosition]}>Sign in with Email</Text>
             </View>
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() => this.signinFacebook() }
-            style={Styles.simpleButton}>
-            <View style={Styles.container2}>
+            style={[Styles.buttonBase, Styles.buttonPosStart]}>
+            <View style={Styles.containerStart}>
               <Image
-                style = {Styles.imageFacebook}
+                style = {Styles.image}
                 source={require('../../resources/facebook.png') }/>
-              <Text style={Styles.simpleButtonText}> sign in with Facebook</Text>
+              <Text style={[Styles.simpleButtonText, Styles.simpleButtonTextPosition]}>Sign in with Facebook</Text>
             </View>
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() => this.signInGoogle() }
-            style={Styles.simpleButton}>
-            <View style={Styles.container2}>
+            style={[Styles.buttonBase, Styles.buttonPosStart]}>
+            <View style={Styles.containerStart}>
               <Image
-                style = {Styles.imageFacebook}
+                style = {Styles.image}
                 source={require('../../resources/google.png') }/>
-              <Text style={Styles.simpleButtonText}> sign in with Google</Text>
+              <Text style={[Styles.simpleButtonText, Styles.simpleButtonTextPosition]}>Sign in with Google</Text>
             </View>
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() => this.signinInstagram() }
-            style={Styles.simpleButton}>
-            <View style={Styles.container2}>
+            style={[Styles.buttonBase, Styles.buttonPosStart]}>
+            <View style={Styles.containerStart}>
               <Image
-                style = {Styles.imageFacebook}
+                style = {Styles.image}
                 source={require('../../resources/instagram.png') }/>
-              <Text style={Styles.simpleButtonText}> sign in with Instagram</Text>
+              <Text style={[Styles.simpleButtonText, Styles.simpleButtonTextPosition]}>Sign in with Instagram</Text>
             </View>
           </TouchableOpacity>
         </View>
